@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giáo viên tạo: Ms Lê Hằng English</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #8854C0;
+            --secondary-color: #FDCB6E;
+            --accent-color: #00C9A7;
+            --correct-color: #00D26A;
+            --wrong-color: #FF4757;
+            --text-color: #2D3436;
+            --bg-card: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Nunito', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #8854C0, #FDCB6E, #00C9A7, #E84393);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            position: relative;
+            padding: 20px 10px;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* SVG Decorative Floating Pattern Overlay */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M15 15 L25 15 L20 5 Z M70 20 A 10 10 0 1 1 70 40 A 10 10 0 1 1 70 20 M30 80 Q 40 70, 50 80 T 70 80 M100 90 L105 105 L90 95 L110 95 L95 105 Z' fill='none' stroke='%23ffffff' stroke-width='2' stroke-opacity='0.25'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            animation: floatingPattern 30s linear infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes floatingPattern {
+            from { background-position: 0 0; }
+            to { background-position: 500px 1000px; }
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: 0 8px 0 rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            border: 3px solid var(--primary-color);
+        }
+
+        header h4 {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .reminder-box {
+            background: #FFEAA7;
+            border: 3px solid #FDCB6E;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 6px 0 #E1B12C;
+            text-align: center;
+        }
+
+        .reminder-box h5 {
+            color: #D35400;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            font-weight: 900;
+        }
+
+        .reminder-box p {
+            font-weight: 700;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            color: #636E72;
+        }
+
+        .exercise-title {
+            background: var(--text-color);
+            color: #FFF;
+            padding: 10px 20px;
+            border-radius: 12px;
+            margin: 25px 0 15px 0;
+            font-weight: 900;
+            display: inline-block;
+            box-shadow: 0 4px 0 #000;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 0 rgba(0,0,0,0.15);
+            border: 3px solid #DFE6E9;
+            transition: transform 0.2s;
+            position: relative;
+        }
+
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        @media(max-width: 600px) {
+            .options-grid { grid-template-columns: 1fr; }
+        }
+
+        .btn-opt {
+            background: #F1F2F6;
+            border: 2px solid #CED6E0;
+            padding: 12px 15px;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: left;
+            transition: transform 0.1s, background-color 0.2s;
+            box-shadow: 0 5px 0 #CED6E0;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-opt:hover:not([disabled]) {
+            transform: scale(1.02);
+            background: #E4E7EB;
+        }
+
+        .btn-opt:active:not([disabled]) {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #CED6E0;
+        }
+
+        /* Status colors */
+        .btn-opt.correct {
+            background-color: var(--correct-color) !important;
+            border-color: #00B359 !important;
+            color: white !important;
+            box-shadow: 0 5px 0 #00B359 !important;
+        }
+
+        .btn-opt.wrong {
+            background-color: var(--wrong-color) !important;
+            border-color: #E03746 !important;
+            color: white !important;
+            box-shadow: 0 5px 0 #E03746 !important;
+        }
+
+        /* Phonetics & Underline utilities */
+        .question-text u, .btn-opt u {
+            text-decoration: underline;
+            color: #FF4757;
+            font-weight: 900;
+        }
+
+        /* Gap Fill Dropdowns / Inline Popups */
+        .gap-select {
+            display: inline-block;
+            background: #FFEAA7;
+            border: 2px dashed #FDCB6E;
+            padding: 3px 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 900;
+            color: #D35400;
+            margin: 0 4px;
+            position: relative;
+        }
+
+        .gap-select.correct {
+            background: var(--correct-color);
+            color: white;
+            border-style: solid;
+            border-color: #00B359;
+        }
+
+        .gap-select.wrong {
+            background: var(--wrong-color);
+            color: white;
+            border-style: solid;
+            border-color: #E03746;
+        }
+
+        /* Overlay Popup Selector for Gap Fill */
+        .popup-picker {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border: 3px solid var(--primary-color);
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 10;
+            width: max-content;
+            padding: 8px;
+            gap: 6px;
+        }
+
+        .popup-picker button {
+            background: #F1F2F6;
+            border: 2px solid #CED6E0;
+            padding: 6px 12px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .popup-picker button:hover {
+            background: var(--secondary-color);
+        }
+
+        /* CSS Rendered Artificial Graphics for Q29, Q30 / Text Layouts */
+        .sale-sign-box {
+            background: #FF7675;
+            border: 4px dashed #FFF;
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+            font-weight: 900;
+            box-shadow: 0 0 0 4px #FF7675;
+            margin: 10px 0;
+        }
+
+        .phone-message-box {
+            background: #E1F5FE;
+            border-radius: 15px;
+            padding: 12px;
+            border: 2px solid #B3E5FC;
+            max-width: 300px;
+            margin: 10px 0;
+            position: relative;
+        }
+
+        .phone-message-box::after {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 15px;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 10px solid #E1F5FE;
+        }
+
+        /* Explanation Box style */
+        .explanation-box {
+            display: none;
+            margin-top: 15px;
+            background: #F8EFBA;
+            border-left: 6px solid #D35400;
+            padding: 15px;
+            border-radius: 0 15px 15px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            animation: slideDown 0.3s ease;
+        }
+
+        .explanation-box.visible { display: block; }
+        .exp-section { margin-bottom: 8px; }
+        .exp-title { font-weight: 900; color: #D35400; }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Shake animation for wrong inputs */
+        .shake {
+            animation: shakeAnim 0.4s ease;
+        }
+
+        @keyframes shakeAnim {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+
+        /* Submit Footer Panel */
+        .submit-panel {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .btn-submit {
+            background: var(--accent-color);
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 900;
+            padding: 15px 40px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 0 #00A383;
+            transition: transform 0.1s;
+        }
+
+        .btn-submit:hover { transform: scale(1.05); }
+        .btn-submit:active { transform: translateY(4px); box-shadow: 0 4px 0 #00A383; }
+
+        /* Modal Score Popup Styling */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background: white;
+            border-radius: 25px;
+            max-width: 500px;
+            width: 100%;
+            padding: 30px;
+            text-align: center;
+            border: 5px solid var(--primary-color);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            animation: scaleUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes scaleUp {
+            from { transform: scale(0.7); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-box h2 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-weight: 900;
+        }
+
+        .score-display {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--correct-color);
+            margin: 15px 0;
+        }
+
+        .modal-comment {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #636E72;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .btn-close {
+            background: var(--secondary-color);
+            color: #2D3436;
+            font-weight: 900;
+            font-size: 1.1rem;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 0 #E1B12C;
+            cursor: pointer;
+        }
+
+        /* Confetti Canvas */
+        #confetti-canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 99;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="container">
+        <header>
+            <h4>Giáo viên tạo: Ms Lê Hằng English</h4>
+        </header>
+
+        <div class="reminder-box">
+            <h5>⚠️ LỜI NHẮC CỰC KỲ QUAN TRỌNG ⚠️</h5>
+            <p>Chỉ có đọc kỹ giải thích ngay sau mỗi câu, sau đó ghi lại từ vựng/cấu trúc mới vào vở để học thì mới thực sự giỏi lên.<br>
+            Làm cho xong mà không đọc giải thích hay đọc qua loa không ghi chép thì chỉ tốn thời gian vô ích!<br>
+            <strong>* Kéo tới đâu, làm tới đó! *</strong></p>
+        </div>
+
+        <form id="quiz-form" onsubmit="event.preventDefault();">
+            <!-- Dynamic Injection Anchor Point -->
+            <div id="quiz-content"></div>
+
+            <div class="submit-panel">
+                <button type="button" class="btn-submit" onclick="submitQuiz()">🎉 NỘP BÀI TỔNG KẾT 🎉</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Score Overlay Modal -->
+    <div class="modal-overlay" id="score-modal">
+        <div class="modal-box">
+            <h2>Kết Quả Kiểm Tra</h2>
+            <div class="score-display" id="modal-score">0/0</div>
+            <div class="modal-comment" id="modal-comment">Lời nhận xét</div>
+            <button class="btn-close" onclick="closeModal()">Làm lại / Đóng</button>
+        </div>
+    </div>
+
+    <script>
+        // Audio Synthesis Layer (Web Audio API) - Sound Effects generator without exterior file dependancy
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                // Bright Ding Sound
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+                osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.1);  // A5
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.4);
+            } else if (type === 'wrong') {
+                // Playful Descending Buzz "Teo teo teo"
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, audioCtx.currentTime); // A3
+                osc.frequency.linearRampToValueAtTime(110, audioCtx.currentTime + 0.4); // A2
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.5);
+            }
+        }
+
+        // Full Database containing all items unmodified from raw query source
+        const quizData = [
+            // Exercise 3
+            { id: "ex3_1", type: "abcd", ex: "Exercise 3: Choose the odd one out in each group.", q: "1. Choose the odd one out:", a: ["reading", "dancing", "exciting", "watching"], c: "exciting", exp: { v: "A. reading (v-ing): việc đọc sách.<br>B. dancing (v-ing): việc nhảy múa.<br>C. exciting (adj): thú vị, hào hứng.<br>D. watching (v-ing): việc xem phim/tivi.", d: "Tìm từ khác loại so với những từ còn lại.", w: "Đáp án đúng là C vì 'exciting' là một tính từ miêu tả tính chất, đặc điểm. Các đáp án A, B, D đều là dạng danh động từ (Gerund/V-ing) chỉ hoạt động giải trí công việc.", s: "Loại bỏ A, B, D vì chúng cùng nhóm danh từ chỉ hoạt động." } },
+            { id: "ex3_2", type: "abcd", ex: "Exercise 3: Choose the odd one out in each group.", q: "2. Choose the odd one out:", a: ["keen on", "interested", "fond of", "play"], c: "play", exp: { v: "A. keen on (adj + prep): thích thú, say mê.<br>B. interested (adj): có hứng thú (thường đi với in).<br>C. fond of (adj + prep): thích thích.<br>D. play (v): chơi, hoạt động.", d: "Tìm từ khác nhóm từ vựng.", w: "Đáp án đúng là D vì 'play' là một động từ nguyên mẫu hành động. Trong khi các đáp án A, B, C đều thuộc nhóm tính từ biểu đạt trạng thái yêu thích, đam mê cái gì đó.", s: "Các từ còn lại đều là tính từ chỉ sở thích." } },
+            { id: "ex3_3", type: "abcd", ex: "Exercise 3: Choose the odd one out in each group.", q: "3. Choose the odd one out:", a: ["hate", "like", "love", "fancy"], c: "hate", exp: { v: "A. hate (v): ghét.<br>B. like (v): thích.<br>C. love (v): yêu thích.<br>D. fancy (v): mến, thích.", d: "Tìm từ trái nghĩa nhóm còn lại.", w: "Đáp án đúng là A vì 'hate' biểu thị sắc thái tiêu cực (ghét bỏ), trái ngược hoàn toàn với nhóm B, C, D mang sắc thái tích cực biểu thị sự yêu mến thích thú.", s: "Loại trừ các động từ tích cực để chọn từ tiêu cực." } },
+            { id: "ex3_4", type: "abcd", ex: "Exercise 3: Choose the odd one out in each group.", q: "4. Choose the odd one out:", a: ["travel", "surfing", "walk", "swim"], c: "surfing", exp: { v: "A. travel (v): đi du lịch.<br>B. surfing (v-ing): môn lướt sóng, việc lướt mạng.<br>C. walk (v): đi bộ.<br>D. swim (v): bơi lội.", d: "Tìm từ khác hình thái từ loại.", w: "Đáp án đúng là B vì 'surfing' ở dạng V-ing đóng vai trò danh động từ hoặc từ có đuôi -ing, các từ còn lại A, C, D đều giữ nguyên mẫu động từ gốc hành động.", s: "A, C, D đều là động từ nguyên mẫu không có đuôi ing." } },
+            { id: "ex3_5", type: "abcd", ex: "Exercise 3: Choose the odd one out in each group.", q: "5. Choose the odd one out:", a: ["puzzles", "sports", "books", "take"], c: "take", exp: { v: "A. puzzles (n): trò chơi giải đố (số nhiều).<br>B. sports (n): các môn thể thao.<br>C. books (n): những cuốn sách.<br>D. take (v): cầm, nắm, lấy.", d: "Tìm danh từ khác động từ.", w: "Đáp án đúng là D vì 'take' là một động từ. Các đáp án còn lại A, B, C đều là các danh từ số nhiều chỉ đồ vật hoặc chủ đề giải trí thông dụng.", s: "A, B, C là các danh từ để giải trí, học tập." } },
+
+            // Exercise 4
+            { id: "ex4_1", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence (A, B, C, or D) that best fits the space in each sentence.", q: "1. Jack enjoys _________ games.", a: ["to play", "play", "playing", "to playing"], c: "playing", exp: { v: "A. to play<br>B. play<br>C. playing<br>D. to playing", d: "Jack thích chơi các trò chơi giải trí.", w: "Đáp án chính xác là C. Cấu trúc ngữ pháp cơ bản sau động từ chỉ sở thích: Enjoy + V-ing (Thích thú làm việc gì đó). Do vậy hình thái 'playing' phù hợp nhất.", s: "A, B, D sai vì không đúng quy chuẩn kết hợp cấu trúc động từ với enjoy." } },
+            { id: "ex4_2", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence (A, B, C, or D) that best fits the space.", q: "2. My father likes _________ books and _________ in the pool.", a: ["reading - swim", "to read - swimming", "read - swim", "reading - swimming"], c: "reading - swimming", exp: { v: "A. reading - swim<br>B. to read - swimming<br>C. read - swim<br>D. reading - swimming", d: "Bố của tôi thích đọc sách và bơi lội ở trong hồ bơi.", w: "Đáp án đúng là D. Quy tắc song hành (Parallel Structure) liên kết bởi liên từ 'and' yêu cầu hai hành động phải chung một định dạng từ loại. Sau động từ 'like' ta sử dụng V-ing để liệt kê sở thích lâu dài, do đó cần cặp đôi 'reading - swimming'.", s: "Các đáp án khác vi phạm tính đồng dạng song hành ngữ pháp." } },
+            { id: "ex4_3", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence (A, B, C, or D) that best fits the space.", q: "3. Are you keen _________ watching videos?", a: ["On", "about", "to", "for"], c: "On", exp: { v: "A. On (giới từ)<br>B. about (giới từ)<br>C. to (giới từ)<br>D. for (giới từ)", d: "Bạn có đam mê xem các đoạn video ngắn không?", w: "Đáp án đúng là A. Theo cấu trúc tính từ đi kèm giới từ cố định (Collocation): Be keen on + V-ing/Noun nghĩa là say mê, đam mê, vô cùng thích thú một điều gì đó.", s: "B, C, D sai vì không tạo thành cụm từ có nghĩa đi với tính từ 'keen'." } },
+            { id: "ex4_4", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence (A, B, C, or D) that best fits the space.", q: "4. _________ photos is one of my hobbies.", a: ["Take", "Taking", "Takes", "To taking"], c: "Taking", exp: { v: "A. Take<br>B. Taking<br>C. Takes<br>D. To taking", d: "Chụp ảnh là một trong những sở thích lớn của tôi.", w: "Đáp án chính xác là B. Danh động từ (Gerund - V-ing) đứng ở vị trí đầu câu làm chủ ngữ của câu (Subject). Cụm từ 'Taking photos' đóng vai trò là một chủ ngữ số ít đi với động từ tobe 'is'.", s: "A và C là động từ chia thông thường không làm chủ ngữ trực tiếp được; D sai cấu trúc." } },
+            { id: "ex4_5", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence (A, B, C, or D) that best fits the space.", q: "5. Nam usually _________ football with his friends after school.", a: ["Plays", "playing", "play", "to play"], c: "Plays", exp: { v: "A. Plays<br>B. playing<br>C. play<br>D. to play", d: "Nam thường xuyên chơi đá bóng cùng các bạn sau giờ tan học.", w: "Đáp án chính xác là A. Dấu hiệu trạng từ tần suất 'usually' chỉ hành động lặp đi lặp lại ở hiện tại đơn. Chủ ngữ 'Nam' là ngôi thứ ba số ít nên động từ 'play' phải thêm đuôi 's' thành 'plays'.", s: "B, C, D sai quy tắc chia động từ thì Hiện tại đơn với chủ ngữ số ít." } },
+            { id: "ex4_6", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "6. ________ helps to improve physical health and sometimes gives us a chance to make friends.", a: ["Messaging", "Playing computer games", "Surfing the net", "Playing sports"], c: "Playing sports", exp: { v: "A. Messaging: Nhắn tin.<br>B. Playing computer games: Chơi điện tử.<br>C. Surfing the net: Lướt mạng.<br>D. Playing sports: Chơi thể thao.", d: "Chơi thể thao giúp nâng cao sức khỏe thể chất và đôi khi mang lại cơ hội kết giao bạn bè.", w: "Đáp án đúng là D dựa vào ngữ cảnh từ khóa đặc biệt 'improve physical health' (cải thiện sức khỏe thể chất). Chỉ có thể thao mới phát triển trực tiếp thể chất cơ thể.", s: "A, B, C không trực tiếp giúp ích tối ưu cải thiện hệ thống thể chất lành mạnh." } },
+            { id: "ex4_7", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "7. Mark spends a lot of time ________ the internet. He visits one website after another just to watch short videos.", a: ["doing", "taking", "surfing", "knitting"], c: "surfing", exp: { v: "A. doing (làm)<br>B. taking (cầm, lấy)<br>C. surfing (lướt mạng)<br>D. knitting (đan len)", d: "Mark dành rất nhiều thời gian lướt mạng internet. Cậu ấy truy cập hết trang web này tới trang khác chỉ để xem video.", w: "Đáp án đúng là C. Cụm từ cố định liên kết chặt chẽ (Collocation): Surf the internet / surf the net mang nghĩa là lướt mạng, duyệt các thông tin trên internet.", s: "Các động từ còn lại không kết hợp ngữ nghĩa với danh từ 'the internet'." } },
+            { id: "ex4_8", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "8. Nowadays, most students only have a limited amount of ________ time. They have to do too much homework.", a: ["holiday", "quiet", "independent", "leisure"], c: "leisure", exp: { v: "A. holiday (ngày nghỉ)<br>B. quiet (yên lặng)<br>C. independent (độc lập)<br>D. leisure (rảnh rỗi, giải trí)", d: "Ngày nay, hầu hết học sinh chỉ có một lượng thời gian rảnh rỗi hạn chế. Các em phải làm quá nhiều bài tập về nhà.", w: "Đáp án đúng là D. Ta có cụm danh từ ghép vô cùng phổ biến: 'leisure time' mang ý nghĩa là thời gian rảnh rỗi, thời gian thư giãn cá nhân ngoài giờ học.", s: "Các phương án khác ghép vào không mang lại ý nghĩa hợp lý với bối cảnh áp lực bài tập." } },
+            { id: "ex4_9", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "9. Alice spends a lot of time _______ her own; she always exercises regularly and does what she enjoys.", a: ["on", "in", "about", "for"], c: "on", exp: { v: "A. on<br>B. in<br>C. about<br>D. for", d: "Alice dành nhiều thời gian ở một mình tự lập; cô ấy luôn tập thể dục đều đặn và làm những gì bản thân thấy thích.", w: "Đáp án đúng là A. Thành ngữ cố định trong tiếng Anh: 'on one's own' bằng nghĩa với cụm 'alone' (một mình, tự thân độc lập). Ở đây cụm từ 'on her own' chỉ trạng thái một mình cô ấy.", s: "B, C, D không tồn tại cấu trúc đi liền tương tự để mang nghĩa một mình." } },
+            { id: "ex4_10", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "10. He wasn't interested _______ growing flowers in the garden.", a: ["At", "for", "with", "in"], c: "in", exp: { v: "A. At<br>B. for<br>C. with<br>D. in", d: "Anh ấy đã từng không hứng thú với việc trồng hoa ở trong vườn.", w: "Đáp án đúng là D. Tính từ đi kèm giới từ quy chuẩn bắt buộc: Be interested in + N/V-ing biểu đạt sự hứng thú, quan tâm, yêu thích về một lĩnh vực hoặc công việc cụ thể.", s: "A, B, C sai giới từ đồng hành đi với tính từ interested." } },
+            { id: "ex4_11", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "11. _________ do you do with your friends in your free time?", a: ["What", "How", "Who", "When"], c: "What", exp: { v: "A. What (Cái gì)<br>B. How (Như thế nào)<br>C. Who (Ai)<br>D. When (Khi nào)", d: "Bạn thường làm cái gì cùng với bạn bè của mình vào thời gian rảnh rỗi?", w: "Đáp án đúng là A. Từ để hỏi 'What' đứng đầu câu nhằm hỏi về hành động cụ thể, nội dung hoạt động giải trí (làm cái gì). Vế sau đã có cụm 'with your friends' và 'in your free time' nên không hỏi Who hay When.", s: "B, C, D sai ngữ nghĩa cần hỏi của cấu trúc câu." } },
+            { id: "ex4_12", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "12. Is he _________ in doing puzzles?", a: ["Interests", "Interesting", "interest", "interested"], c: "interested", exp: { v: "A. Interests (v/n)<br>B. Interesting (adj - chủ động)<br>C. interest (v/n)<br>D. interested (adj - bị động)", d: "Liệu anh ấy có cảm thấy hứng thú với việc chơi trò giải đố không?", w: "Đáp án đúng là D. Tính từ đuôi -ed 'interested' dùng để chỉ cảm xúc, trạng thái cảm giác của con người khi bị tác động bởi một hoạt động (đi kèm giới từ in).", s: "B sai vì tính từ đuôi -ing miêu tả tính chất bản chất của sự vật hiện tượng; A, C không phải tính từ phù hợp cấu trúc Be + Adj." } },
+            { id: "ex4_13", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "13. Where would you like _________ with me?", a: ["to go", "playing", "shopping", "doing"], c: "to go", exp: { v: "A. to go<br>B. playing<br>C. shopping<br>D. doing", d: "Bạn muốn đi đâu cùng với mình thế?", w: "Đáp án chính xác là A. Cấu trúc lời mời gọi hoặc bày tỏ nguyện vọng lịch sự: Would like + to V (muốn làm cái gì). Chỉ có phương án A có dạng động từ nguyên mẫu có to.", s: "B, C, D đều ở dạng V-ing vi phạm trực tiếp cấu trúc của cụm từ 'would like'." } },
+            { id: "ex4_14", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "14. Origami is the art of paper _________.", a: ["fold", "folding", "to fold", "folds"], c: "folding", exp: { v: "A. fold<br>B. folding<br>C. to fold<br>D. folds", d: "Origami là một loại hình nghệ thuật gấp giấy thủ công.", w: "Đáp án đúng là B. Sau giới từ 'of' ta bắt buộc phải sử dụng danh từ hoặc danh động từ dạng V-ing. Cụm từ 'paper folding' tức là việc gấp giấy nghệ thuật.", s: "A, C, D không đúng ngữ pháp sau giới từ bổ nghĩa cho danh từ đứng trước." } },
+            { id: "ex4_15", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "15. Playing sports improves our overall _________ and balance.", a: ["strong", "healthy", "health", "good"], c: "health", exp: { v: "A. strong (adj): khỏe mạnh.<br>B. healthy (adj): lành mạnh.<br>C. health (n): sức khỏe.<br>D. good (adj): tốt.", d: "Chơi thể thao giúp cải thiện sức khỏe tổng thể và khả năng giữ thăng bằng của chúng ta.", w: "Đáp án đúng là C. Đứng sau từ chỉ tính chất sở hữu vị trí tính từ 'overall' ta cần một danh từ để tạo thành cụm danh từ hoàn chỉnh. Thêm vào đó từ nối 'and' nối với danh từ 'balance' nên vị trí trống phải là danh từ 'health'.", s: "A, B, D sai vì đều là các tính từ đơn lẻ." } },
+            { id: "ex4_16", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "16. Nga likes ______ with her close friend on Saturday evenings.", a: ["window shop", "window to shop", "window shops", "window shopping"], c: "window shopping", exp: { v: "A. window shop<br>B. window to shop<br>C. window shops<br>D. window shopping", d: "Nga thích đi ngắm đồ qua kính trưng bày cửa hàng cùng bạn thân vào các tối thứ Bảy.", w: "Đáp án đúng là D. Ta có cụm hành động 'go window shopping' hoặc danh động từ sở thích 'window shopping' (đi ngắm đồ trưng bày không mua). Sau động từ 'like' ta dùng V-ing.", s: "A, B, C sai hình thái ngữ pháp quy định cho cụm hành động này." } },
+            { id: "ex4_17", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "17. Lan used to love ______ front of the computer for hours but now she doesn’t. She takes part in a judo club.", a: ["using", "sitting", "doing", "having"], c: "sitting", exp: { v: "A. using (sử dụng)<br>B. sitting (ngồi)<br>C. doing (làm)<br>D. having (có)", d: "Lan từng thích ngồi trước máy tính hàng giờ đồng hồ liền nhưng giờ cô ấy không thế nữa. Cô ấy tham gia câu lạc bộ judo.", w: "Đáp án chính xác là B. Căn cứ vào từ chỉ phương hướng định vị 'front of' (phía trước của). Ta có cụm từ 'sit in front of the computer' nghĩa là ngồi trước màn hình máy vi tính.", s: "Các động từ còn lại không đi kèm trực tiếp phù hợp ngữ cảnh với cụm từ chỉ vị trí front of." } },
+            { id: "ex4_18", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "18. Minh is a very hard-working boy. He doesn’t mind ______ a lot of homework in the evenings.", a: ["making", "reading", "seeing", "doing"], c: "doing", exp: { v: "A. making (chế tạo)<br>B. reading (đọc)<br>C. seeing (nhìn thấy)<br>D. doing (làm)", d: "Minh là một cậu bé vô cùng chăm chỉ. Cậu ấy không ngại làm thật nhiều bài tập về nhà vào các buổi tối.", w: "Đáp án đúng là D. Đi kèm trực tiếp danh từ bài tập về nhà 'homework', ta chỉ sử dụng động từ 'do homework'. Cấu trúc: Mind + V-ing (ngại, phiền làm gì), suy ra đáp án là 'doing'.", s: "A, B, C không đi với danh từ homework để tạo nghĩa làm bài tập." } },
+            { id: "ex4_19", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "19. Do you fancy ______ around the West Lake with me this Sunday morning?", a: ["going", "having", "staying", "moving"], c: "going", exp: { v: "A. going (đi)<br>B. having (có)<br>C. staying (ở lại)<br>D. moving (di chuyển)", d: "Bạn có hứng thú đi dạo quanh khu vực Hồ Tây cùng mình vào sáng Chủ nhật tuần này không?", w: "Đáp án chính xác là A. Cụm từ 'go around' nghĩa là đi vòng quanh, đi dạo xung quanh một địa điểm địa lý. Sau cấu trúc câu hỏi động từ 'fancy' bắt buộc cộng động từ dạng V-ing.", s: "B, C, D không tạo lập được cụm từ có nghĩa đi dạo quanh hồ phù hợp." } },
+            { id: "ex4_20", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "20. I don’t like ______ up early in the winter days. I love ______ in bed late.", a: ["getting/ stay", "get/ stay", "getting/ staying", "get/ staying"], c: "getting/ staying", exp: { v: "A. getting/ stay<br>B. get/ stay<br>C. getting/ staying<br>D. get/ staying", d: "Tôi không thích thức dậy sớm vào những ngày mùa đông giá rét. Tôi yêu việc nằm lười lại trên giường muộn hơn.", w: "Đáp án chính xác là C. Cả hai động từ trạng thái cảm xúc 'like' và 'love' đều yêu cầu động từ theo sau ở dạng danh động từ V-ing khi mô tả sở thích thói quen lâu dài thường trực.", s: "Các đáp án A, B, D sai vì chứa động từ dạng nguyên thể chưa được thêm đuôi ing." } },
+            { id: "ex4_21", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "21. I like to _______ Tik Tok to watch short clips whenever I have free time.", a: ["Knit", "surf", "message", "relax"], c: "surf", exp: { v: "A. Knit: Đan len.<br>B. surf: Lướt mạng.<br>C. message: Nhắn tin.<br>D. relax: Thư giãn.", d: "Tôi thích lướt mạng Tik Tok để xem các đoạn video ngắn bất cứ khi nào tôi có thời gian rảnh.", w: "Đáp án đúng là B. Động từ 'surf' đi kèm tên một nền tảng mạng xã hội hoặc mạng internet mang ý nghĩa lướt xem thông tin liên tục trên ứng dụng công nghệ đó.", s: "A, C, D không đi liền với tên riêng ứng dụng trực tiếp theo kết cấu ngữ nghĩa này." } },
+            { id: "ex4_22", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "22. I usually _______ my friends whenever I need your help.", a: ["message", "Hit", "keep", "joke"], c: "message", exp: { v: "A. message (v): nhắn tin.<br>B. Hit (v): đánh, va chạm.<br>C. keep (v): giữ gìn.<br>D. joke (v): nói đùa.", d: "Tôi thường nhắn tin cho bạn bè của mình bất cứ khi nào tôi cần sự giúp đỡ của bạn.", w: "Đáp án chính xác là A. Dựa trên ngữ cảnh giao tiếp kết nối trao đổi bạn bè khi có nhu cầu cần hỗ trợ giúp đỡ, động từ 'message' (nhắn tin trao đổi) là phương án hợp lý nhất.", s: "Các động từ B, C, D hoàn toàn không mang ý nghĩa phù hợp với ngữ cảnh giúp đỡ." } },
+            { id: "ex4_23", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "23. In the beach _______, the apartments and villas have daily maid service.", a: ["conservation", "cooking", "Resort", "competition"], c: "Resort", exp: { v: "A. conservation: sự bảo tồn.<br>B. cooking: việc nấu ăn.<br>C. Resort: khu nghỉ dưỡng.<br>D. competition: cuộc thi đấu.", d: "Tại các khu nghỉ dưỡng ven biển, các căn hộ và biệt thự luôn có dịch vụ dọn phòng hàng ngày.", w: "Đáp án chính xác là C. Cụm danh từ ghép chỉ địa điểm du lịch lưu trú sang trọng nghỉ mát: 'beach resort' (Khu nghỉ dưỡng bãi biển cao cấp có villa căn hộ).", s: "A, B, D không kết hợp với danh từ 'beach' để chỉ một trung tâm lưu trú du lịch." } },
+            { id: "ex4_24", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "24. That dress looks so _______. I want to buy it. Do you think it is nice?", a: ["Fancy", "funny", "Crazy", "noisy"], c: "Fancy", exp: { v: "A. Fancy (adj): lộng lẫy, đẹp đẽ, sang xịn mịn.<br>B. funny (adj): buồn cười.<br>C. Crazy (adj): điên rồ.<br>D. noisy (adj): ồn ào.", d: "Chiếc váy đầm đó trông thật lộng lẫy sang trọng. Mình muốn mua nó. Bạn có nghĩ nó đẹp không?", w: "Đáp án đúng là A. Dựa vào câu khen ngợi liền kề 'I want to buy it' (Tôi muốn mua) và câu hỏi 'Is it nice?' (Nó có đẹp không) để suy luận ra một tính từ tích cực chỉ vẻ đẹp lộng lẫy cao cấp.", s: "B, C, D không miêu tả đặc tính thẩm mỹ tích cực thúc đẩy hành vi muốn mua đồ." } },
+            { id: "ex4_25", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "25. I bought a knitting _______ and asked my grandmother to teach me how to knit.", a: ["fold", "kit", "improve", "relax"], c: "kit", exp: { v: "A. fold (n/v): nếp gấp.<br>B. kit (n): bộ dụng cụ chỉnh chu.<br>C. improve (v): cải thiện.<br>D. relax (v): thư giãn.", d: "Tôi đã mua một bộ dụng cụ đan len và nhờ bà dạy tôi cách đan lát.", w: "Đáp án chính xác là B. Ta có thuật ngữ cụm từ danh từ ghép thông dụng chỉ bộ đồ nghề thủ công: 'knitting kit' (bộ dụng cụ đồ nghề đầy đủ phục vụ cho việc đan len).", s: "A, C, D không đi với từ knitting để chỉ một tập hợp món đồ vật mua ở cửa hàng." } },
+            { id: "ex4_26", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "26. She spends lots of time _________ the net on Sundays.", a: ["Surfing", "cooking", "playing", "doing"], c: "Surfing", exp: { v: "A. Surfing (lướt mạng)<br>B. cooking (nấu ăn)<br>C. playing (chơi)<br>D. doing (làm)", d: "Cô ấy dành rất nhiều quỹ thời gian để lướt mạng internet vào các ngày Chủ nhật.", w: "Đáp án chính xác là A. Cấu trúc câu: Spend time + V-ing. Kết hợp với danh từ 'the net' (mạng internet) tạo thành cụm từ lướt web cố định 'surfing the net'.", s: "B, C, D không đi liền với danh từ 'the net' để biểu đạt hoạt động công nghệ máy tính." } },
+            { id: "ex4_27", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "27. Oanh is not crazy _________ doing DIY.", a: ["on", "in", "about", "for"], c: "about", exp: { v: "A. on<br>B. in<br>C. about<br>D. for", d: "Oanh không quá cuồng nhiệt hay say mê việc tự tay làm đồ thủ công tái chế (DIY).", w: "Đáp án chính xác là C. Cấu trúc cụm tính từ đi kèm giới từ biểu đạt trạng thái phát cuồng, vô cùng thích thú: Be crazy about + N/V-ing.", s: "A, B, D hoàn toàn sai ngữ pháp vì giới từ không thể đi kèm tạo nghĩa với tính từ crazy." } },
+            { id: "ex4_28", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "28. He loves _________ a cup of coffee every morning.", a: ["Drinking", "drink", "to drink", "A & C are correct"], c: "A & C are correct", exp: { v: "A. Drinking (V-ing)<br>B. drink (V nguyên mẫu)<br>C. to drink (To-V)<br>D. A & C đều đúng", d: "Anh ấy yêu thích uống một tách cà phê thơm ngon vào mỗi buổi sáng.", w: "Đáp án chính xác là D. Theo lý thuyết ngữ pháp cơ bản, sau động từ chỉ cảm xúc yêu ghét như 'love', chúng ta có thể linh hoạt sử dụng cả hai cấu trúc danh động từ V-ing ('drinking') hoặc động từ nguyên mẫu có to To-V ('to drink') đều hoàn toàn chính xác.", s: "B sai vì động từ để nguyên mẫu không có to đứng sau love là sai cấu trúc." } },
+            { id: "ex4_29", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "29. Do you enjoy _________ meals?", a: ["cook", "cooking", "to cook", "cooks"], c: "cooking", exp: { v: "A. cook<br>B. cooking<br>C. to cook<br>D. cooks", d: "Bạn có thích việc nấu nướng chuẩn bị các bữa ăn không?", w: "Đáp án chính xác là B. Dựa trên quy tắc ngữ pháp bắt buộc sau động từ chỉ sự tận hưởng sở thích: Enjoy + V-ing (Thích làm việc gì đó). Vậy ta chọn danh động từ 'cooking'.", s: "A, C, D không thỏa mãn quy chuẩn chia động từ đi liền sau enjoy." } },
+            { id: "ex4_30", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "30. On the weekends, we often go _________ a bike ride.", a: ["with", "to", "for", "into"], c: "for", exp: { v: "A. with<br>B. to<br>C. for<br>D. into", d: "Vào các ngày nghỉ cuối tuần, chúng tôi thường đi đạp xe dạo chơi thư giãn.", w: "Đáp án đúng là C. Ta có cụm từ đi dạo bằng xe đạp cố định bất biến trong tiếng Anh: 'go for a bike ride' (tương tự go for a walk).", s: "A, B, D sai vì giới từ đi kèm không tạo nên ngữ nghĩa đạp xe giải trí." } },
+            { id: "ex4_31", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "31. About our favorite leisure activities, she and I share many things in ________.", a: ["similarity", "general", "common", "the same"], c: "common", exp: { v: "A. similarity (n): sự tương đồng.<br>B. general (adj/n): tổng quát chung.<br>C. common (adj/n): điểm chung.<br>D. the same (idiom): giống như vậy.", d: "Về các hoạt động giải trí yêu thích, cô ấy và tôi có rất nhiều điểm chung chia sẻ cùng nhau.", w: "Đáp án chính xác là C. Cụm ngữ cố định thông dụng trong giao tiếp tiếng Anh: 'in common' mang ý nghĩa là có chung đặc điểm, sở thích, điểm tương đồng.", s: "Các từ khác không ghép được vào cấu trúc giới từ 'in' để sinh ra nét nghĩa có điểm chung." } },
+            { id: "ex4_32", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "32. Visiting _______ increases my knowledge about cultures in the past.", a: ["Museums", "cinemas", "hometown", "city"], c: "Museums", exp: { v: "A. Museums: Bảo tàng trưng bày lịch sử.<br>B. cinemas: Rạp chiếu phim giải trí.<br>C. hometown: Quê hương nông thôn.<br>D. city: Thành phố náo nhiệt.", d: "Việc đi tham quan các viện bảo tàng giúp gia tăng vốn hiểu biết của tôi về các nền văn hóa trong quá khứ.", w: "Đáp án chính xác là A. Dựa trên từ khóa cốt lõi 'knowledge about cultures in the past' (kiến thức về văn hóa quá khứ). Địa điểm duy nhất lưu giữ các hiện vật văn hóa quá khứ lịch sử chính là bảo tàng.", s: "B, C, D không trực tiếp là trung tâm lưu trữ văn hóa quá khứ rõ nét như viện bảo tàng." } },
+            { id: "ex4_33", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "33. My father advised me to do ________ every day because it is good for the brain.", a: ["messages", "puzzles", "sports", "cooking"], c: "puzzles", exp: { v: "A. messages: tin nhắn nhắn tin.<br>B. puzzles: trò chơi ô chữ, giải đố trí tuệ.<br>C. sports: các môn thể thao vận động thể chất.<br>D. cooking: việc nấu nướng đồ ăn.", d: "Bố tôi khuyên tôi nên giải đố chơi trò trí tuệ mỗi ngày vì nó rất tốt cho hoạt động của trí não.", w: "Đáp án đúng là B. Dựa vào cụm từ khóa 'good for the brain' (tốt cho bộ não tư duy). Trò chơi giải đố 'puzzles' đi với động từ 'do' (do puzzles) giúp rèn luyện trí tuệ kích thích nơ-ron não bộ.", s: "C đi với động từ do nhưng tốt cho thể chất chứ không thuần trí não; A và D không hợp bối cảnh rèn não." } },
+            { id: "ex4_34", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "34. Last school year, my students were very keen on ________. They decorated and repaired the classroom by themselves.", a: ["cooking", "doing origami", "doing DIY", "playing sports"], c: "doing DIY", exp: { v: "A. cooking: nấu ăn.<br>B. doing origami: gấp giấy nghệ thuật.<br>C. doing DIY: tự tay làm đồ thủ công sửa chữa đồ đạc.<br>D. playing sports: chơi thể thao.", d: "Năm học trước, các học sinh của tôi rất thích tự làm đồ thủ công (DIY). Các em tự mình trang trí và sửa sang lại lớp học.", w: "Đáp án chính xác là C. Căn cứ cụm giải thích phía sau: 'decorated and repaired the classroom by themselves' (tự trang trí và sửa chữa phòng học). Đây chính là định nghĩa bản chất của hoạt động DIY (Do It Yourself).", s: "A, B, D hoàn toàn không chứa hành động sửa chữa trang trí phòng ốc quy mô như vậy." } },
+            { id: "ex4_35", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "35. ________ is an increasingly popular method of communicating over the internet. People often send short messages using a mobile phone or computer.", a: ["Messaging", "Volunteering", "Snowboarding", "Knitting"], c: "Messaging", exp: { v: "A. Messaging: Nhắn tin trao đổi trò chuyện.<br>B. Volunteering: Hoạt động tình nguyện xã hội.<br>C. Snowboarding: Môn trượt tuyết bằng ván.<br>D. Knitting: Việc đan len thủ công.", d: "Nhắn tin là một phương thức giao tiếp ngày càng phổ biến trên internet. Mọi người thường gửi các tin nhắn ngắn bằng điện thoại di động hoặc máy tính.", w: "Đáp án chính xác là A nhờ vào cụm từ khóa gợi ý trực tiếp ở câu sau 'send short messages' (gửi những tin nhắn văn bản ngắn).", s: "Các phương án B, C, D là các môn thể thao giải trí hoặc hoạt động xã hội cá nhân không có tính năng giao tiếp văn bản internet." } },
+            { id: "ex4_36", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "36. My younger brother used to detest ______ fish, but now he likes doing it.", a: ["eats", "ate", "eating", "eat"], c: "eating", exp: { v: "A. eats<br>B. ate<br>C. eating<br>D. eat", d: "Em trai tôi từng ghét cay ghét đắng việc ăn cá, nhưng bây giờ cậu ấy lại thích làm việc đó rồi.", w: "Đáp án chính xác là C. Theo cấu trúc ngữ pháp động từ chỉ sự ghét bỏ cực độ: Detest + V-ing (Ghét cay ghét đắng làm việc gì đó). Do đó động từ eat phải đổi thành dạng danh động từ 'eating'.", s: "A, B, D sai vì không tuân thủ cấu trúc của động từ detest." } },
+            { id: "ex4_37", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "37. Tom loves ______ with his new pen friends in Vietnamese.", a: ["chat", "chatting", "both B and D", "to chat"], c: "both B and D", exp: { v: "A. chat (V nguyên thể)<br>B. chatting (V-ing nhân đôi t)<br>C. cả B và D đều đúng<br>D. to chat (To-V)", d: "Tom yêu thích việc tán gẫu trò chuyện qua mạng với những người bạn phương xa mới bằng tiếng Việt.", w: "Đáp án chính xác là C. Động từ chỉ cảm xúc yêu chuộng 'love' có thể đi kèm sau bởi cả danh động từ đuôi ing 'chatting' (lưu ý gấp đôi phụ âm cuối t) hoặc động từ nguyên mẫu có to 'to chat' đều mang cấu trúc chuẩn chỉnh.", s: "Do phương án B và D đều đúng ngữ pháp nên ta chọn đáp án tổng hợp C." } },
+            { id: "ex4_38", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "38. Did you _______ listening to fairy tales when you were a child?", a: ["fancied", "adored", "fond of", "adore"], c: "adore", exp: { v: "A. fancied (chia quá khứ)<br>B. adored (chia quá khứ)<br>C. fond of (thiếu tobe)<br>D. adore (động từ nguyên mẫu)", d: "Bạn có từng cực kỳ yêu thích việc lắng nghe truyện cổ tích khi bạn còn là một đứa trẻ không?", w: "Đáp án đúng là D. Đây là câu hỏi trợ động từ quá khứ 'Did' đứng đầu câu: Did + S + V (nguyên thể không chia). Do đó động từ biểu thị sự yêu thích phải ở dạng nguyên mẫu 'adore'.", s: "A, B sai vì đã bị chia thì quá khứ; C sai vì fond là một tính từ không thể làm động từ chính trực tiếp sau chủ ngữ đứng một mình như vậy." } },
+            { id: "ex4_39", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "39. My students don’t mind ______ English stories, some even adore doing it.", a: ["reading", "read", "to read", "listening"], c: "reading", exp: { v: "A. reading (đọc sách)<br>B. read (V nguyên thể)<br>C. to read (To-V)<br>D. listening (nghe)", d: "Học sinh của tôi không phiền hay ngại đọc các câu chuyện bằng tiếng Anh, một vài bạn thậm chí còn cực kỳ mê việc đó.", w: "Đáp án chính xác là A. Sau cấu trúc phủ định không ngại làm gì: Don't mind + V-ing. Đồng thời danh từ đi kèm phía sau là 'stories' (truyện chữ) nên hành động tương thích ngữ cảnh là đọc truyện 'reading'.", s: "B, C sai ngữ pháp cấu trúc mind; D sai ý nghĩa ngữ cảnh vì nghe truyện đi với giới từ to nghe âm thanh." } },
+            { id: "ex4_40", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "40. Minh ______ to play football, and so does his brother.", a: ["likes", "enjoys", "fancies", "detest."], c: "likes", exp: { v: "A. likes (thích)<br>B. enjoys (thích thú)<br>C. fancies (mến thích)<br>D. detest (ghét bỏ)", d: "Minh thích chơi đá bóng, và em trai cậu ấy cũng vậy.", w: "Đáp án đúng là A. Căn cứ vào cấu trúc động từ nguyên thể có 'to play' ở phía sau vị trí trống. Trong 4 phương án, duy nhất động từ 'like' có thể đi với 'To-V' (like to do something). Các động từ còn lại B, C bắt buộc đi trực tiếp với V-ing.", s: "B, C loại vì chỉ đi với V-ing; D loại vì mang nghĩa ghét bỏ tiêu cực, mâu thuẫn đồng tình 'so does'." } },
+            { id: "ex4_41", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "41. Many people are fond _______ French cheese.", a: ["without", "of", "at", "in"], c: "of", exp: { v: "A. without<br>B. of<br>C. at<br>D. in", d: "Rất nhiều người yêu thích món phô mai béo ngậy của nước Pháp.", w: "Đáp án đúng là B. Cấu trúc cụm tính từ đi kèm giới từ cố định bất biến: Be fond of + N/V-ing nghĩa là yêu thích cái gì/làm gì.", s: "A, C, D sai giới từ liên kết với từ fond." } },
+            { id: "ex4_42", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "42. Teenagers often prefer travelling with their friends _______ travelling with their parents.", a: ["from", "to", "on", "in"], c: "to", exp: { v: "A. from<br>B. to<br>C. on<br>D. in", d: "Thanh thiếu niên thường thích đi du lịch cùng bạn bè hơn là đi du lịch cùng với bố mẹ của họ.", w: "Đáp án chính xác là B. Cấu trúc so sánh sở thích lựa chọn hơn kém phổ biến: Prefer V-ing 1 + TO + V-ing 2 (Thích làm việc 1 hơn làm việc 2).", s: "Các giới từ A, C, D sai cấu trúc ngữ pháp quy định của động từ prefer." } },
+            { id: "ex4_43", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "43. I like to watch TV _______ my free time.", a: ["up", "on", "of", "in"], c: "in", exp: { v: "A. up<br>B. on<br>C. of<br>D. in", d: "Tôi thích xem các chương trình truyền hình tivi vào thời gian rảnh rỗi của mình.", w: "Đáp án đúng là D. Cụm từ chỉ thời gian rảnh rỗi quen thuộc luôn đi cùng giới từ in: 'in my free time' hoặc 'in one's leisure time'.", s: "Các giới từ khác không đi với cụm free time để chỉ mốc thời gian." } },
+            { id: "ex4_44", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "44. What do you think is the best leisure activity _______ teenagers?", a: ["for", "with", "between", "in"], c: "for", exp: { v: "A. for (cho, dành cho)<br>B. with (với)<br>C. between (ở giữa hai)<br>D. in (trong)", d: "Bạn nghĩ hoạt động giải trí nào là tốt nhất dành cho lứa tuổi thanh thiếu niên?", w: "Đáp án chính xác là A. Giới từ 'for' chỉ đối tượng hướng tới mục tiêu, thụ hưởng lợi ích (dành cho ai đó). Cụm từ: 'activity for teenagers' nghĩa là hoạt động dành cho giới trẻ.", s: "B, C, D không hợp nghĩa biểu đạt mục tiêu hướng tới lứa tuổi học sinh." } },
+            { id: "ex4_45", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "45. She loves going out _______ her friends.", a: ["for", "with", "between", "in"], c: "with", exp: { v: "A. for<br>B. with<br>C. between<br>D. in", d: "Cô ấy vô cùng yêu thích việc đi ra ngoài chơi cùng với những người bạn của mình.", w: "Đáp án đúng là B. Ta có cụm hành động giao lưu bạn bè: 'go out with somebody' mang ý nghĩa đi ra ngoài, đi chơi, hẹn hò, tụ tập cùng ai đó.", s: "A, C, D không tạo lập được nét nghĩa đồng hành cùng ai đó." } },
+            { id: "ex4_46", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "46. Phuong and her little sister fancy _________ with the dolls. They are lovely.", a: ["plays", "to play", "playing", "played"], c: "playing", exp: { v: "A. plays<br>B. to play<br>C. playing<br>D. played", d: "Phương và em gái nhỏ của cô ấy thích chơi đùa với những con búp bê. Chúng thật dễ thương.", w: "Đáp án chính xác là C. Sau động từ diễn tả niềm yêu thích, đam mê: Fancy + V-ing. Do đó động từ play đổi thành hình thái danh động từ 'playing'.", s: "A, B, D sai vì không áp dụng đúng công thức đi kèm động từ fancy." } },
+            { id: "ex4_47", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "47. Ms. Janny loves _________ very much. There are a lot of beautiful flowers and fresh vegetables in her garden.", a: ["doing gardening", "to doing garden", "to do garden", "do gardening"], c: "doing gardening", exp: { v: "A. doing gardening: làm vườn.<br>B. to doing garden: sai cấu trúc.<br>C. to do garden: thiếu đuôi ing của cụm danh từ.<br>D. do gardening: động từ nguyên mẫu.", d: "Cô Janny rất yêu thích công việc làm vườn chăm cây. Có rất nhiều bông hoa xinh đẹp và rau củ quả tươi sạch trong vườn nhà cô.", w: "Đáp án đúng là A. Ta có cụm danh từ hoạt động giải trí cố định: 'do gardening' (làm vườn). Sau động từ chỉ cảm xúc 'love', ta chuyển hành động sang dạng danh động từ 'doing gardening'.", s: "Các phương án B, C, D sai lệch cấu trúc từ vựng của hành động làm vườn." } },
+            { id: "ex4_48", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "48. I'm so thirsty after a long run. I would like _________ a full glass of orange juice.", a: ["drink", "to drink", "drank", "drinking"], c: "to drink", exp: { v: "A. drink<br>B. to drink<br>C. drank<br>D. drinking", d: "Tôi cảm thấy thật khát nước sau một quãng đường chạy dài. Tôi muốn uống một ly nước cam đầy.", w: "Đáp án chính xác là B. Cấu trúc diễn đạt mong muốn, sở thích nhất thời một cách lịch sự trang trọng: Would like + To-V. Do vậy chọn động từ dạng 'to drink'.", s: "A, C, D hoàn toàn không thỏa mãn điều kiện cấu trúc đi sau cụm từ would like." } },
+            { id: "ex4_49", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "49. She _________ sharing tips to learn English effectively for every learner in the group.", a: ["prefers", "enjoys", "wants", "would like"], c: "enjoys", exp: { v: "A. prefers (thích hơn - cần to/v-ing tùy cấu trúc so sánh)<br>B. enjoys (thích thú - bắt buộc cộng V-ing)<br>C. wants (muốn - đi với To-V)<br>D. would like (muốn - đi với To-V)", d: "Cô ấy thích chia sẻ những mẹo nhỏ học tiếng Anh hiệu quả cho tất cả mọi người trong nhóm học tập.", w: "Đáp án chính xác là B. Nhìn vào động từ phía sau vị trí trống là dạng danh động từ đuôi ing 'sharing'. Trong 4 phương án đưa ra, chỉ có động từ 'enjoys' kết hợp trực tiếp với V-ing mang nghĩa yêu thích.", s: "C và D loại vì đi với To-V; A loại vì không mang nghĩa phù hợp hoàn toàn cho bối cảnh đơn lẻ này." } },
+            { id: "ex4_50", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "50. Tim prefers _________ cartoons on TV every evening. He said they were so funny.", a: ["watch", "watching", "watched", "to watch"], c: "watching", exp: { v: "A. watch<br>B. watching<br>C. watched<br>D. to watch", d: "Tim thích xem phim hoạt hình trên tivi vào mỗi buổi tối. Cậu ấy bảo chúng vô cùng hài hước.", w: "Đáp án chính xác là B. Để diễn tả sở thích chung chung lâu dài, động từ 'prefer' thường đi trực tiếp với danh động từ dạng V-ing ('watching').", s: "A, C sai ngữ pháp chia động từ; D 'to watch' ít được chuộng khi nói về sở thích thói quen thường trực hàng đêm trong bối cảnh này bằng V-ing." } },
+            { id: "ex4_51", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "51. Mai’s foreign friends fancy ______ museums when they are in Vietnam.", a: ["visits", "to visit", "of visiting", "visiting"], c: "visiting", exp: { v: "A. visits<br>B. to visit<br>C. of visiting<br>D. visiting", d: "Những người bạn nước ngoài của Mai rất thích đi tham quan bảo tàng khi họ tới Việt Nam.", w: "Đáp án đúng là D. Sau động từ chỉ sở thích 'fancy' bắt buộc phải đi kèm trực tiếp với một động từ thêm đuôi -ing (Gerund). Vì vậy ta chọn 'visiting'.", s: "A, B, C hoàn toàn vi phạm quy tắc kết hợp ngữ pháp của từ fancy." } },
+            { id: "ex4_52", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "52. My dad is hooked on news or football matches while my mum ______ watching fashion shows.", a: ["interested in", "fond of", "prefer to", "enjoys"], c: "enjoys", exp: { v: "A. interested in: thích (thiếu tobe)<br>B. fond of: thích (thiếu tobe)<br>C. prefer to: thích hơn (sai cấu trúc ngôi ba)<br>D. enjoys: thích thú (động từ chia ngôi ba số ít)", d: "Bố tôi thì nghiện xem tin tức thời sự hoặc các trận bóng đá, trong khi mẹ tôi lại thích xem các buổi trình diễn thời trang.", w: "Đáp án chính xác là D. Chủ ngữ ở vế sau là 'my mum' (số ít ngôi thứ ba), phía sau chỗ trống có động từ V-ing 'watching'. Động từ 'enjoys' vừa ăn khớp cấu trúc V-ing vừa được chia thêm 's' đúng ngữ pháp thì hiện tại đơn.", s: "A và B loại vì là tính từ, bắt buộc phải có động từ tobe 'is' đi kèm trước; C sai chia ngôi số ít." } },
+            { id: "ex4_53", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "53. Mai enjoys ______ to music, especially pop music in her free time.", a: ["hearing", "playing", "listening", "talking"], c: "listening", exp: { v: "A. hearing (nghe thấy thụ động)<br>B. playing (chơi nhạc cụ/thể thao)<br>C. listening (lắng nghe chủ động)<br>D. talking (nói chuyện)", d: "Mai thích lắng nghe âm nhạc, đặc biệt là nhạc Pop sôi động vào thời gian rảnh rỗi của mình.", w: "Đáp án chính xác là C. Căn cứ vào giới từ 'to' ngay phía sau. Cụm từ cố định bất biến chỉ hành động nghe nhạc luôn luôn là: 'listen to music'. Sau enjoy ta chọn dạng V-ing 'listening'.", s: "A, B, D không đi kèm với giới từ 'to' để tạo nghĩa thưởng thức âm nhạc." } },
+            { id: "ex4_54", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "54. My grandparents love ______ very much. There are a lot of beautiful flowers and fresh vegetables in their garden.", a: ["doing garden", "doing gardening", "do gardening", "to do garden"], c: "doing gardening", exp: { v: "A. doing garden: sai cụm từ.<br>B. doing gardening: việc làm vườn chăm cây.<br>C. do gardening: động từ chưa thêm ing.<br>D. to do garden: sai ngữ pháp.", d: "Ông bà của tôi cực kỳ thích công việc làm vườn. Có rất nhiều bông hoa xinh đẹp và rau tươi trong khu vườn của ông bà.", w: "Đáp án đúng là B. Hành động làm vườn cụm danh động từ chuẩn xác phải là 'doing gardening'. Đứng sau động từ yêu thích 'love' ta dùng V-ing để gọi tên sở thích lâu năm.", s: "Các phương án khác sai cấu trúc cụm từ ghép danh từ của từ gốc làm vườn." } },
+            { id: "ex4_55", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "55. You should avoid ______ too much TV. It’s not good for your eyes. She feels relaxed.", a: ["seeing", "looking", "watching", "glancing"], c: "watching", exp: { v: "A. seeing (nhìn thấy)<br>B. looking (nhìn chăm chú - cần giới từ)<br>C. watching (xem tivi, giám sát)<br>D. glancing (liếc nhìn nhanh)", d: "Bạn nên tránh xem tivi quá nhiều. Điều đó hoàn toàn không tốt cho đôi mắt của bạn đâu.", w: "Đáp án chính xác là C. Sau động từ né tránh 'avoid' ta phải dùng động từ thêm đuôi -ing (avoid + V-ing). Đồng thời đi với danh từ 'TV' thì chỉ có động từ 'watch' tạo thành cụm 'watch TV' (xem tivi).", s: "A, B, D không kết hợp đi kèm trực tiếp với danh từ TV để chỉ hành động xem truyền hình." } },
+            { id: "ex4_56", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "56. Origami is the timeless Japanese art of _______.", a: ["paper folding", "car making", "train spotting", "bird watching"], c: "paper folding", exp: { v: "A. paper folding: gấp giấy nghệ thuật.<br>B. car making: chế tạo ô tô.<br>C. train spotting: ngắm tàu hỏa chạy.<br>D. bird watching: quan sát chim chóc ngoài tự nhiên.", d: "Origami là loại hình nghệ thuật gấp giấy Nhật Bản trường tồn mãi với thời gian.", w: "Đáp án chính xác là A. Dựa trên kiến thức thực tế nền tảng từ vựng: Định nghĩa nghệ thuật Origami của đất nước Nhật Bản chính là nghệ thuật gấp giấy thủ công ('paper folding').", s: "B, C, D hoàn toàn không liên quan tới bản chất khái niệm nghệ thuật Origami." } },
+            { id: "ex4_57", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "57. These exercises build _______ and increase stamina.", a: ["leisure", "muscle", "puzzle", "snowboarding"], c: "muscle", exp: { v: "A. leisure: sự rảnh rỗi.<br>B. muscle: cơ bắp, hệ cơ.<br>C. puzzle: câu đố trí tuệ.<br>D. snowboarding: môn trượt tuyết.", d: "Những bài tập thể dục này giúp xây dựng phát triển cơ bắp chắc khỏe và gia tăng sức bền thể chất.", w: "Đáp án chính xác là B. Động từ 'build' (xây dựng, phát triển) đi liền kết hợp mục tiêu rèn luyện thể thao cơ thể tạo nên cụm từ 'build muscle' (phát triển các khối cơ bắp rắn chắc).", s: "A, C, D không đi với động từ build để chỉ một ích lợi thể hình rèn luyện." } },
+            { id: "ex4_58", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "58. Most people now enjoy shorter working hours and more _______.", a: ["message friends", "paper folding", "leisure time", "muscle strength"], c: "leisure time", exp: { v: "A. message friends: nhắn tin bạn bè.<br>B. paper folding: việc gấp giấy.<br>C. leisure time: thời gian rảnh rỗi thư giãn.<br>D. muscle strength: sức mạnh cơ bắp.", d: "Hầu hết mọi người hiện nay được tận hưởng giờ làm việc ngắn hơn và có nhiều thời gian nghỉ ngơi thư giãn hơn.", w: "Đáp án đúng là C. Nhờ vào từ nối song hành mang tính bổ trợ 'shorter working hours' (giờ làm việc ngắn lại) đồng nghĩa với việc con người sẽ có thêm nhiều 'leisure time' (thời gian thư giãn, rảnh rỗi ngoài giờ làm).", s: "A, B, D không tạo lập được mối liên hệ logic tương hỗ trực tiếp với cụm từ giảm giờ làm." } },
+            { id: "ex4_59", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "59. Do you fancy ______ origami?", a: ["making", "looking", "doing", "seeing"], c: "doing", exp: { v: "A. making (chế tạo)<br>B. looking (nhìn)<br>C. doing (thực hiện hoạt động)<br>D. seeing (nhìn thấy)", d: "Bạn có hứng thú với việc gấp giấy nghệ thuật Origami không?", w: "Đáp án chính xác là C. Cụm từ cố định chỉ hoạt động gấp giấy Origami của người Nhật luôn luôn sử dụng động từ 'do' đi kèm: 'do origami'. Sau động từ fancy ta chia dạng đuôi ing là 'doing origami'.", s: "A, B, D sai vì không kết hợp đúng động từ quy định đi với bộ môn nghệ thuật Origami này." } },
+            { id: "ex4_60", type: "abcd", ex: "Exercise 4: Choose the word/ phrase/ sentence.", q: "60. Nam _______ the Internet a lot to find useful information for his studying.", a: ["surfs", "types", "checks", "looks"], c: "surfs", exp: { v: "A. surfs (lướt mạng)<br>B. types (gõ bàn phím)<br>C. checks (kiểm tra tài khoản)<br>D. looks (nhìn - cần giới từ)", d: "Nam lướt mạng Internet rất nhiều để tìm kiếm những thông tin hữu ích phục vụ cho công việc học tập của mình.", w: "Đáp án đúng là A. Ta có cụm hành động cố định chỉ việc truy cập các trang mạng đọc tin tức: 'surf the Internet' (lướt mạng). Do chủ ngữ 'Nam' số ít nên động từ thêm s thành 'surfs'.", s: "B, C, D không đi liền trực tiếp với tân ngữ 'the Internet' để tạo nghĩa duyệt mạng tìm kiếm tin tức." } },
+
+            // Exercise 5 - Gap fills rendered dynamically
+            { id: "ex5_1", type: "gap", ex: "Exercise 5: Put the correct prepositions in the sentences.", q: "1. My grandmother is keen <span class='gap-select' data-id='ex5_1_g' data-ans='on'>___?___</span> watching TV. She watches TV every evening.", opts: ["on", "in", "at", "about"], exp: { v: "Giới từ cần điền: on", d: "Bà của tôi đam mê xem tivi. Bà xem tivi vào mỗi buổi tối thường nhật.", w: "Đáp án là 'on' vì cấu trúc cụm từ cố định: Be keen on + V-ing/N mang ý nghĩa đam mê, thích thú vô hạn cái gì.", s: "Các giới từ còn lại loại vì không đúng cặp từ đi với tính từ keen." } },
+            { id: "ex5_2", type: "gap", ex: "Exercise 5: Put the correct prepositions in the sentences.", q: "2. I like eating pizzas, but I am not interested <span class='gap-select' data-id='ex5_2_g' data-ans='in'>___?___</span> making pizzas.", opts: ["in", "for", "with", "at"], exp: { v: "Giới từ cần điền: in", d: "Tôi rất thích ăn bánh pizza, nhưng tôi lại không hề có chút hứng thú với việc tự làm bánh pizza.", w: "Đáp án đúng là 'in'. Ta có cấu trúc cụm từ miêu tả sự hứng thú quan tâm: Be interested in + V-ing/N.", s: "Các phương án khác sai giới từ đi kèm tính từ interested." } },
+            { id: "ex5_3", type: "gap", ex: "Exercise 5: Put the correct prepositions in the sentences.", q: "3. She is crazy <span class='gap-select' data-id='ex5_3_g' data-ans='about'>___?___</span> doing DIY in her free time.", opts: ["about", "on", "for", "with"], exp: { v: "Giới từ cần điền: about", d: "Cô ấy phát cuồng vì việc tự tay thiết kế làm đồ thủ công thủ công vào thời gian rảnh.", w: "Đáp án đúng là 'about'. Cấu trúc cụm từ thể hiện trạng thái cực kỳ say mê, phát cuồng: Be crazy about + V-ing/N.", s: "Các giới từ khác không tạo thành cụm từ đúng cấu trúc với tính từ crazy." } },
+            { id: "ex5_4", type: "gap", ex: "Exercise 5: Put the correct prepositions in the sentences.", q: "4. Do you fancy going <span class='gap-select' data-id='ex5_4_g' data-ans='for'>___?___</span> a walk in the morning?", opts: ["for", "to", "with", "on"], exp: { v: "Giới từ cần điền: for", d: "Bạn có thích đi bộ đi dạo thư giãn vào buổi sáng sớm không?", w: "Đáp án đúng là 'for'. Ta có cụm hành động đi bộ thư giãn dạo chơi cố định: 'go for a walk'.", s: "Các giới từ khác không đi với động từ go để chỉ hành động đi bộ thư giãn." } },
+            { id: "ex5_5", type: "gap", ex: "Exercise 5: Put the correct prepositions in the sentences.", q: "5. My best friend prefers doing judo <span class='gap-select' data-id='ex5_5_g' data-ans='to'>___?___</span> playing sports.", opts: ["to", "than", "from", "with"], exp: { v: "Giới từ cần điền: to", d: "Người bạn thân nhất của tôi thích tập võ judo hơn là chơi các môn thể thao thông thường khác.", w: "Đáp án chính xác là 'to'. Áp dụng chính xác cấu trúc so sánh hơn giữa hai lựa chọn sở thích: Prefer V-ing 1 + TO + V-ing 2.", s: "Học sinh tiểu học hay nhầm lẫn dùng từ 'than' nhưng cấu trúc chuẩn của động từ prefer bắt buộc đi với giới từ 'to'." } },
+            { id: "ex5_6", type: "gap", ex: "Exercise 5: Put the correct prepositions in the sentences.", q: "6. I am <span class='gap-select' data-id='ex5_6_g' data-ans='into'>___?___</span> spending time with my friends on Sundays.", opts: ["into", "on", "up", "with"], exp: { v: "Giới từ cần điền: into", d: "Tôi vô cùng thích và say mê dành thời gian tụ tập cùng bạn bè của mình vào các ngày Chủ nhật.", w: "Đáp án chính xác là 'into'. Cấu trúc tiếng Anh giao tiếp thông dụng chỉ sự đam mê yêu thích: Be + into + N/V-ing (bằng nghĩa với like/love).", s: "Các giới từ khác đặt vào không tương thích với cấu trúc của động từ tobe 'am' đứng phía trước để chỉ sở thích giải trí." } },
+            { id: "ex5_7", type: "gap", ex: "Exercise 5: Put the correct prepositions in the sentences.", q: "7. What do you love doing <span class='gap-select' data-id='ex5_7_g' data-ans='at'>___?___</span> the weekends?", opts: ["at", "on", "in", "with"], exp: { v: "Giới từ cần điền: at", d: "Bạn yêu thích làm hoạt động gì nhất vào các ngày nghỉ cuối tuần thế?", w: "Đáp án đúng là 'at' (hoặc 'on' cũng chấp nhận được trong văn phong Mỹ). Theo chuẩn ngữ pháp Anh-Anh sách giáo khoa phổ thông, cụm từ chỉ thời gian cuối tuần là: 'at the weekend' hoặc 'at the weekends'.", s: "Giới từ 'in' hoàn toàn sai ngữ pháp khi đi với từ weekend." } },
+            { id: "ex5_8", type: "gap", ex: "Exercise 5: Put the correct prepositions in the sentences.", q: "8. My family and I fancy cooking and going for a bike ride <span class='gap-select' data-id='ex5_8_g' data-ans='around'>___?___</span> our city.", opts: ["around", "into", "on", "at"], exp: { v: "Giới từ cần điền: around", d: "Gia đình tôi và tôi rất thích nấu ăn và cùng nhau đạp xe đi dạo một vòng quanh thành phố thân yêu.", w: "Đáp án chính xác là 'around'. Cụm hành động đạp xe đi dạo vòng quanh một khu vực không gian địa lý: 'go for a bike ride around the city'.", s: "Các giới từ mang nghĩa tĩnh tại như 'at' hay 'on' không mô tả được trạng thái di chuyển vòng quanh khám phá thành phố." } },
+
+            // Exercise 6 - Closest in meaning
+            { id: "ex6_1", type: "abcd", ex: "Exercise 6: Choose the word(s) CLOSEST in meaning to the underlined word(s).", q: "1. She <u>hates</u> talking with him about what he likes. (Tìm từ đồng nghĩa)", a: ["Likes", "detests", "enjoys", "love"], c: "detests", exp: { v: "A. Likes: thích.<br>B. detests: ghét cay ghét đắng.<br>C. enjoys: tận hưởng thích thú.<br>D. love: yêu thương.", d: "Cô ấy ghét việc phải nói chuyện với anh ta về những gì anh ta thích.", w: "Từ gạch chân 'hates' mang nghĩa là căm ghét, loại trừ phương án tích cực. Do đó từ đồng nghĩa gần nhất là 'detests' (ghét bỏ cực độ).", s: "Các đáp án A, C, D đều mang nghĩa trái ngược hoàn toàn (yêu thích)." } },
+            { id: "ex6_2", type: "abcd", ex: "Exercise 6: Choose the word(s) CLOSEST in meaning to the underlined word(s).", q: "2. You do leisure activities in your free time and they make you feel <u>satisfied</u>. (Tìm từ đồng nghĩa)", a: ["Pleased", "dissatisfied", "tired", "bored"], c: "Pleased", exp: { v: "A. Pleased (adj): hài lòng, vui vẻ hạnh phúc.<br>B. dissatisfied (adj): bất mãn không vui.<br>C. tired (adj): mệt mỏi thể xác.<br>D. bored (adj): buồn chán tẻ nhạt.", d: "Bạn tham gia các hoạt động giải trí vào lúc rảnh rỗi và chúng làm bạn thấy hài lòng thỏa mãn.", w: "Từ gạch chân 'satisfied' nghĩa là cảm thấy thỏa mãn, bằng lòng, hạnh phúc sau một hoạt động tốt đẹp. Do đó đồng nghĩa sát nhất với tính từ 'pleased'.", s: "B mang nghĩa trái ngược hẳn; C và D mang sắc thái tiêu cực mệt mỏi, chán nản." } },
+            { id: "ex6_3", type: "abcd", ex: "Exercise 6: Choose the word(s) CLOSEST in meaning to the underlined word(s).", q: "3. You can <u>enjoy</u> great Vietnamese seafood in Ha Long Bay. (Tìm từ đồng nghĩa)", a: ["Dislike", "like", "hate", "detest"], c: "like", exp: { v: "A. Dislike (ghét)<br>B. like (thích, thưởng thức hưởng thụ)<br>C. hate (ghét cay)<br>D. detest (căm ghét)", d: "Bạn có thể thưởng thức những món hải sản Việt Nam tuyệt vời ngay tại Vịnh Hạ Long xinh đẹp.", w: "Từ gạch chân 'enjoy' mang nghĩa là tận hưởng, thích thú thưởng thức một món ăn hay cảnh đẹp. Từ có nét nghĩa tương đồng gần gũi nhất trong nhóm này chính là động từ 'like'.", s: "A, C, D đều mang nét nghĩa tiêu cực, ghét bỏ xa lánh." } },
+            { id: "ex6_4", type: "abcd", ex: "Exercise 6: Choose the word(s) CLOSEST in meaning to the underlined word(s).", q: "4. Nam enjoys going to the cinema in his <u>free time</u>. (Tìm từ đồng nghĩa)", a: ["leisure time", "favorite activity", "summer holiday", "this weekend"], c: "leisure time", exp: { v: "A. leisure time: thời gian rảnh rỗi, thời gian thư giãn giải trí.<br>B. favorite activity: hoạt động yêu thích cá nhân.<br>C. summer holiday: kỳ nghỉ hè của học sinh.<br>D. this weekend: ngày nghỉ cuối tuần này.", d: "Nam thích đi tới rạp chiếu phim xem phim vào thời gian rảnh rỗi của mình.", w: "Cụm từ gạch chân 'free time' nghĩa là khoảng thời gian rảnh rỗi ngoài giờ học hành/làm việc. Từ này đồng nghĩa hoàn toàn 100% với thuật ngữ chuyên đề 'leisure time'.", s: "Các phương án khác chỉ là các mốc nghỉ lễ hoặc hoạt động cụ thể chứ không mang nghĩa thời gian rảnh rỗi tổng quát." } },
+            { id: "ex6_5", type: "abcd", ex: "Exercise 6: Choose the word(s) CLOSEST in meaning to the underlined word(s).", q: "5. I am <u>certain</u> that he will be satisfied with my DIY project. (Tìm từ đồng nghĩa)", a: ["Uncertain", "sure", "unreliable", "unsure"], c: "sure", exp: { v: "A. Uncertain: không chắc chắn.<br>B. sure: chắc chắn, khẳng định rõ ràng.<br>C. unreliable: không đáng tin cậy.<br>D. unsure: không chắc.", d: "Tôi hoàn toàn chắc chắn rằng anh ấy sẽ cảm thấy vô cùng hài lòng với dự án thủ công tự chế của tôi.", w: "Tính từ gạch chân 'certain' mang ý nghĩa là chắc chắn, tin tưởng vào điều gì đó 100%. Từ đồng nghĩa sát sườn nhất của nó chính là tính từ 'sure'.", s: "Các đáp án A, C, D đều mang tiền tố phủ định mang nghĩa phân vân, không chắc chắn hoặc không tin cậy được." } },
+
+            // Exercise 7 - Opposite in meaning
+            { id: "ex7_1", type: "abcd", ex: "Exercise 7: Choose the letter A, B, C, or D to indicate the word(s) OPPOSITE in meaning to the underlined word(s).", q: "1. My DIY project is to make some <u>new</u> bookshelves this summer. (Tìm từ TRÁI NGHĨA)", a: ["Old", "big", "small", "giant"], c: "Old", exp: { v: "A. Old: cũ kỹ, già cỗi.<br>B. big: to lớn.<br>C. small: nhỏ bé.<br>D. giant: khổng lồ vĩ đại.", d: "Dự án tự làm đồ thủ công của tôi là đóng một vài chiếc giá sách mới tinh vào mùa hè này.", w: "Từ gạch chân cần tìm từ trái nghĩa là 'new' (mới). Từ phản nghĩa đối lập hoàn toàn rõ ràng nhất với mới chính là 'old' (cũ).", s: "B, C, D chỉ kích thước hình khối của giá sách chứ không phải trạng thái thời gian sử dụng." } },
+            { id: "ex7_2", type: "abcd", ex: "Exercise 7: Choose the letter A, B, C, or D to indicate the word(s) OPPOSITE in meaning to the underlined word(s).", q: "2. Too much texting can be <u>harmful</u> to our health. (Tìm từ TRÁI NGHĨA)", a: ["Harmless", "dangerous", "unsafe", "poisonous"], c: "Harmless", exp: { v: "A. Harmless (adj): vô hại, an toàn lành tính.<br>B. dangerous (adj): nguy hiểm.<br>C. unsafe (adj): không an toàn.<br>D. poisonous (adj): độc hại có chất độc.", d: "Việc nhắn tin nhắn văn bản quá nhiều có thể gây ra những tác hại khôn lường cho sức khỏe của chúng ta.", w: "Tính từ gạch chân 'harmful' mang nghĩa là có hại, gây hại nghiêm trọng. Từ đối lập phản nghĩa chính xác nhất là tính từ mang hậu tố phủ định tác động: 'harmless' (vô hại, không gây ra bất cứ tổn thương nào).", s: "Các đáp án B, C, D đều mang nghĩa tiêu cực nguy hại đồng nghĩa hoặc gần nghĩa với cụm từ gốc." } },
+            { id: "ex7_3", type: "abcd", ex: "Exercise 7: Choose the letter A, B, C, or D to indicate the word(s) OPPOSITE in meaning to the underlined word(s).", q: "3. I <u>fancy</u> hanging out with my friends. (Tìm từ TRÁI NGHĨA)", a: ["Love", "hate", "like", "adore"], c: "hate", exp: { v: "A. Love: yêu mến.<br>B. hate: căm ghét bỏ.<br>C. like: thích thú.<br>D. adore: vô cùng yêu kính, mê mệt.", d: "Tôi rất thích việc đi ra ngoài tụ tập vui chơi cùng với những người bạn thân của tôi.", w: "Động từ gạch chân là 'fancy' diễn tả trạng thái yêu thích, đam mê tích cực. Từ trái nghĩa cần tìm phải mang sắc thái ghét bỏ tiêu cực, do đó ta chọn động từ 'hate' (ghét).", s: "A, C, D đều là các từ đồng nghĩa chỉ mức độ yêu thích vui tươi." } },
+            { id: "ex7_4", type: "abcd", ex: "Exercise 7: Choose the letter A, B, C, or D to indicate the word(s) OPPOSITE in meaning to the underlined word(s).", q: "4. I <u>like</u> hanging out with the girl next door. (Tìm từ TRÁI NGHĨA)", a: ["Dislike", "love", "adore", "enjoy"], c: "Dislike", exp: { v: "A. Dislike: không thích, ghét bỏ.<br>B. love: yêu thương nhiều.<br>C. adore: mê đắm.<br>D. enjoy: thích thú thưởng thức.", d: "Tôi rất thích đi chơi dạo vòng quanh cùng với bạn gái nhỏ sống ở ngay nhà bên cạnh.", w: "Từ gạch chân 'like' nghĩa là thích (tích cực). Từ trái ngược phản nghĩa trực tiếp bằng cách thêm tiền tố phủ định chính là động từ 'dislike' (không thích).", s: "B, C, D là các từ đồng nghĩa miêu tả cảm xúc yêu thích tích cực tăng dần." } },
+            { id: "ex7_5", type: "abcd", ex: "Exercise 7: Choose the letter A, B, C, or D to indicate the word(s) OPPOSITE in meaning to the underlined word(s).", q: "5. Playing soccer is <u>good</u> for your health. (Tìm từ TRÁI NGHĨA)", a: ["Excellent", "bad", "beneficial", "nice"], c: "bad", exp: { v: "A. Excellent: xuất sắc hoàn hảo.<br>B. bad: tồi tệ, có hại không tốt.<br>C. beneficial: có lợi ích lớn.<br>D. nice: đẹp đẽ, tốt lành.", d: "Chơi đá bóng môn thể thao vua rất tốt cho sự phát triển sức khỏe của bạn.", w: "Từ gạch chân vô cùng cơ bản 'good' mang nghĩa tốt đẹp, có lợi. Từ phản nghĩa đối lập trực diện huyền thoại chính là tính từ 'bad' (tồi, tệ, xấu hại).", s: "A, C, D đều là các từ mang nghĩa tích cực bổ trợ tốt đẹp cho sức khỏe cơ thể." } },
+
+            // Exercise 8 - Form of giving verbs converted into interactives
+            { id: "ex8_1", type: "abcd", ex: "Exercise 8: Complete the sentences using the correct forms of the giving verbs (surf, cook, eat, make, study, shop, go, teach, tidy, cycle).", q: "1. My sister doesn't like _________ her room everyday. (Verb: tidy)", a: ["tidying", "tidy", "tidied", "tidying/ to tidy"], c: "tidying/ to tidy", exp: { v: "Động từ gốc: tidy (dọn dẹp).<br>Đáp án: tidying hoặc to tidy đều chấp nhận được.", d: "Em gái của tôi không thích việc phải dọn dẹp sạch sẽ căn phòng riêng của mình mỗi ngày.", w: "Sau động từ phủ định chỉ sở thích 'doesn't like', ta có thể áp dụng cả cấu trúc động từ dạng V-ing ('tidying') hoặc cấu trúc động từ nguyên thể có to To-V ('to tidy') đều chính xác ngữ pháp.", s: "Phương án tổng hợp chứa cả hai dạng chia từ chính là câu trả lời toàn diện nhất." } },
+            { id: "ex8_2", type: "abcd", ex: "Exercise 8: Complete the sentences using the correct forms of the giving verbs.", q: "2. I enjoy ____ _________ pizza and pasta in this restaurant. (Verb: eat)", a: ["eating", "to eat", "eats", "ate"], c: "eating", exp: { v: "Động từ gốc: eat (ăn).<br>Đáp án: eating", d: "Tôi vô cùng thích thú thưởng thức bánh pizza và mì Ý hảo hạng ở trong nhà hàng này.", w: "Theo quy chuẩn ngữ pháp cố định: Sau động từ 'enjoy' bắt buộc động từ đi liền sau phải ở dạng thêm đuôi -ing (Gerund). Vì thế chọn danh động từ 'eating'.", s: "B, C, D không đúng hình thái ngữ pháp bắt buộc sau từ enjoy." } },
+            { id: "ex8_3", type: "abcd", ex: "Exercise 8: Complete the sentences using the correct forms of the giving verbs.", q: "3. _________ origami is one of her favourite free time activities. (Verb: make)", a: ["Make", "Making", "To making", "Makes"], c: "Making", exp: { v: "Động từ gốc: make (chế tạo, tạo thành).<br>Đáp án: Making", d: "Gấp giấy nghệ thuật Origami là một trong những hoạt động yêu thích vào lúc rảnh rỗi của cô ấy.", w: "Vị trí đứng ở đầu câu làm chủ ngữ chính của câu hành động (Subject). Ta sử dụng danh động từ dạng V-ing đóng vai trò danh từ số ít làm chủ từ, do đó 'Making' là đáp án đúng.", s: "A và D là động từ thông thường không thể đứng làm chủ từ trực tiếp; C viết sai ngữ pháp cấu trúc." } },
+            { id: "ex8_4", type: "abcd", ex: "Exercise 8: Complete the sentences using the correct forms of the giving verbs.", q: "4. My father wants to _________ me how to swim in the swimming pool. (Verb: teach)", a: ["teaching", "teaches", "teach", "taught"], c: "teach", exp: { v: "Động từ gốc: teach (dạy học, chỉ bảo).<br>Đáp án: teach", d: "Bố của tôi muốn dạy cho tôi biết cách bơi lội ở trong hồ bơi.", w: "Căn cứ vào cấu trúc động từ chỉ mong muốn nguyện vọng tương lai: Want + to + V (nguyên mẫu không chia). Phía trước chỗ trống đã xuất hiện chữ 'to', vì vậy ta điền động từ nguyên thể giữ nguyên là 'teach'.", s: "A, B, D sai hình thái vì đã bị thêm đuôi ing, thêm s hoặc chia quá khứ bất quy tắc." } },
+            { id: "ex8_5", type: "abcd", ex: "Exercise 8: Complete the sentences using the correct forms of the giving verbs.", q: "5. She hates _________ before Tet holiday because the supermarket is so crowded. (Verb: shop)", a: ["shopping", "to shop", "shopped", "shopping/ to shop"], c: "shopping/ to shop", exp: { v: "Động từ gốc: shop (đi mua sắm).<br>Đáp án: shopping hoặc to shop", d: "Cô ấy ghét việc phải đi mua sắm sắm sửa trước kỳ nghỉ Tết Nguyên Đán vì siêu thị lúc này cực kỳ đông đúc người qua lại.", w: "Sau động từ chỉ cảm xúc ghét bỏ mạnh mẽ 'hate', người học có thể linh hoạt dùng danh động từ dạng V-ing ('shopping' gấp đôi phụ âm p) hoặc hình thái To-V ('to shop') đều đúng ngữ pháp.", s: "Đáp án tổng hợp chứa cả 2 hình thái chia từ thỏa mãn đầy đủ nhất lý thuyết sở thích." } },
+            { id: "ex8_6", type: "abcd", ex: "Exercise 8: Complete the sentences using the correct forms of the giving verbs.", q: "6. We don't have to _________ on Sundays, so we often get up late and then play sports in the garden. (Verb: study)", a: ["studying", "study", "studies", "to study"], c: "study", exp: { v: "Động từ gốc: study (học tập, nghiên cứu).<br>Đáp án: study", d: "Chúng tôi không phải học bài vào các ngày Chủ nhật, vì thế chúng tôi thường ngủ nướng dậy muộn và sau đó chơi thể thao ngoài vườn.", w: "Cấu trúc cụm động từ khuyết thiếu chỉ sự không bắt buộc trong bổn phận nhiệm vụ: Don't have to + V (động từ nguyên mẫu giữ nguyên không chia). Do đó ta điền từ 'study'.", s: "Các đáp án khác sai dạng chia động từ sau cấu trúc khuyết thiếu have to." } },
+            { id: "ex8_7", type: "abcd", ex: "Exercise 8: Complete the sentences using the correct forms of the giving verbs.", q: "7. Johns loves _________ to the library and reading books all day there. (Verb: go)", a: ["going", "go", "went", "goes"], c: "going", exp: { v: "Động từ gốc: go (đi tới).<br>Đáp án: going", d: "Johns thích đi tới thư viện công cộng và đọc sách suốt cả ngày dài ở nơi đó.", w: "Sau động từ chỉ niềm yêu thích mãnh liệt 'loves', kết hợp từ nối song hành 'and reading' ở dạng V-ing phía sau, vị trí này bắt buộc phải chia động từ go ở dạng danh động từ đuôi ing đồng dạng cấu trúc, tức là 'going'.", s: "B, C, D sai vì không tạo cấu trúc đồng dạng ngữ pháp song hành với từ nối reading." } },
+            { id: "ex8_8", type: "abcd", ex: "Exercise 8: Complete the sentences using the correct forms of the giving verbs.", q: "8. Lyly is interested in _________ facebook and tiktok before going to bed. (Verb: surf)", a: ["surf", "surfing", "surfs", "to surf"], c: "surfing", exp: { v: "Động từ gốc: surf (lướt mạng giải trí).<br>Đáp án: surfing", d: "Lyly rất hứng thú với việc lướt xem mạng xã hội Facebook và Tiktok giải trí trước khi đi ngủ.", w: "Theo quy tắc giới từ bắt buộc trong tiếng Anh: Sau toàn bộ các giới từ (ở đây là giới từ 'in'), động từ đi sau bắt buộc phải thêm đuôi -ing tạo thành danh động từ. Chọn 'surfing'.", s: "A, C, D sai quy chuẩn cấu trúc ngữ pháp sau một giới từ cố định." } },
+            { id: "ex8_9", type: "abcd", ex: "Exercise 8: Complete the sentences using the correct forms of the giving verbs.", q: "9. My grandmother is crazy about _________ traditional food when she has free time. (Verb: cook)", a: ["cooking", "cook", "to cook", "cooked"], c: "cooking", exp: { v: "Động từ gốc: cook (nấu nướng ăn uống).<br>Đáp án: cooking", d: "Bà của tôi rất cuồng nhiệt và say mê nấu các món ăn truyền thống dân tộc mỗi khi bà có thời gian rảnh rỗi.", w: "Căn cứ vào giới từ 'about' đứng ngay phía trước chỗ trống. Động từ theo sau một giới từ luôn luôn phải giữ định dạng danh động từ V-ing, do đó đáp án chính xác là 'cooking'.", s: "A là đáp án chuẩn xác duy nhất; B, C, D vi phạm cấu trúc ngữ pháp sau giới từ." } },
+            { id: "ex8_10", type: "abcd", ex: "Exercise 8: Complete the sentences using the correct forms of the giving verbs.", q: "10. The weather is so cool today. I would like _________ around the streets near my house. (Verb: cycle)", a: ["cycling", "to cycle", "cycle", "cycled"], c: "to cycle", exp: { v: "Động từ gốc: cycle (đạp xe xe đạp).<br>Đáp án: to cycle", d: "Thời tiết hôm nay thật mát mẻ dễ chịu. Tôi muốn đạp xe một vài vòng quanh các con phố nhỏ ở gần nhà tôi.", w: "Áp dụng cấu trúc bày tỏ mong muốn lịch sự tức thời cụ thể: Would like + To-V. Vì thế động từ cycle bắt buộc phải chia ở dạng nguyên mẫu có to đứng trước thành 'to cycle'.", s: "A, C, D sai định dạng chia động từ theo công thức quy định của cụm từ tâm lý would like." } },
+
+            // Exercise 9 - Circle correct option
+            { id: "ex9_1", type: "abcd", ex: "Exercise 9: Circle the correct option in brackets.", q: "1. My cousin (likes / hates) doing housework every day. He is lazy.", a: ["likes", "hates"], c: "hates", exp: { v: "A. likes: thích.<br>B. hates: ghét bỏ.", d: "Người anh họ của tôi ghét làm việc nhà mỗi ngày. Cậu ấy là một kẻ lười biếng.", w: "Đáp án chính xác là 'hates' vì câu sau có tính từ bổ trợ ngữ cảnh mấu chốt 'lazy' (lười biếng). Người lười biếng thì chắc chắn sẽ ghét bỏ việc làm việc nhà dọn dẹp hàng ngày.", s: "Chọn 'likes' sẽ tạo câu mâu thuẫn ngữ nghĩa hoàn toàn với từ lazy." } },
+            { id: "ex9_2", type: "abcd", ex: "Exercise 9: Circle the correct option in brackets.", q: "2. Do your parents love (go / to go) to the theater in their free time?", a: ["go", "to go"], c: "to go", exp: { v: "A. go (V nguyên thể không to)<br>B. to go (động từ nguyên mẫu có to)", d: "Liệu bố mẹ của bạn có thích đi tới rạp hát vào thời gian rảnh rỗi của họ không?", w: "Đáp án chính xác là 'to go'. Động từ yêu thích 'love' có thể đi sau bởi cấu trúc V-ing hoặc To-V để biểu thị sở thích thói quen lâu dài. Phương án 'go' nguyên thể không to là hoàn toàn sai.", s: "Loại phương án động từ nguyên mẫu không to vì vi phạm cấu trúc đứng sau động từ chỉ cảm xúc." } },
+            { id: "ex9_3", type: "abcd", ex: "Exercise 9: Circle the correct option in brackets.", q: "3. Many people (likes / like) going to the beach on summer holiday.", a: ["likes", "like"], c: "like", exp: { v: "A. likes (động từ thêm s)<br>B. like (động từ nguyên mẫu)", d: "Rất nhiều người thích đi chơi tắm biển vào kỳ nghỉ hè.", w: "Đáp án đúng là 'like'. Chủ ngữ của câu là cụm danh từ tập hợp số nhiều 'Many people' (Nhiều người), do đó động từ chính ở thì hiện tại đơn phải giữ nguyên mẫu không được thêm s.", s: "Chọn phương án thêm s là sai quy tắc hòa hợp giữa chủ ngữ số nhiều và động từ." } },
+            { id: "ex9_4", type: "abcd", ex: "Exercise 9: Circle the correct option in brackets.", q: "4. Mrs. Nhung hates (to train / trains) dogs.", a: ["to train", "trains"], c: "to train", exp: { v: "A. to train (To-V)<br>B. trains (động từ thêm s)", d: "Cô Nhung ghét việc huấn luyện dạy dỗ những chú chó.", w: "Đáp án chính xác là 'to train'. Sau động từ ghét bỏ 'hate', ta có thể chọn hình thái To-V hoặc V-ing để làm tân ngữ chỉ hành động sở thích. Phương án 'trains' là động từ chia ngôi thứ ba không thể đứng vị trí này.", s: "Loại trừ phương án động từ chia s vì đứng sau một động từ chính khác là sai quy chuẩn cú pháp câu." } },
+            { id: "ex9_5", type: "abcd", ex: "Exercise 9: Circle the correct option in brackets.", q: "5. (Hang / Hanging) out with friends is one of my favourite activities on Sundays.", a: ["Hang", "Hanging"], c: "Hanging", exp: { v: "A. Hang<br>B. Hanging", d: "Đi ra ngoài tụ tập chơi bời cùng bạn bè là một trong những hoạt động yêu thích nhất của tôi vào các ngày Chủ nhật.", w: "Đáp án chính xác là 'Hanging'. Để làm chủ ngữ đứng đầu câu chỉ một hoạt động cụ thể (Subject), ta bắt buộc dùng danh động từ dạng V-ing.", s: "Động từ nguyên mẫu không chia 'Hang' không thể tự đứng làm vị trí chủ từ ngữ pháp cho câu có động từ tobe 'is'." } },
+            { id: "ex9_6", type: "abcd", ex: "Exercise 9: Circle the correct option in brackets.", q: "6. Mary enjoys (to listen / listening) to classical music.", a: ["to listen", "listening"], c: "listening", exp: { v: "A. to listen<br>B. listening", d: "Mary rất thích lắng nghe dòng âm nhạc cổ điển.", w: "Đáp án chính xác là 'listening'. Quy chuẩn ngữ pháp bắt buộc kinh điển: Sau động từ 'enjoy' luôn là danh động từ thêm đuôi -ing (enjoy + V-ing).", s: "Chọn phương án có 'to' là sai ngữ pháp cơ bản của động từ enjoy." } },
+            { id: "ex9_7", type: "abcd", ex: "Exercise 9: Circle the correct option in brackets.", q: "7. We (hate / like) getting up early in winter mornings. It is very cold, so we want to stay in the blankets more.", a: ["hate", "like"], c: "hate", exp: { v: "A. hate: ghét bỏ.<br>B. like: thích thú.", d: "Chúng tôi ghét việc phải thức dậy sớm vào những buổi sáng mùa đông. Trời cực kỳ lạnh, thế nên chúng tôi chỉ muốn nằm cuộn tròn mãi trong chăn ấm.", w: "Đáp án chính xác là 'hate'. Dựa vào câu giải thích nhân quả phía sau 'It is very cold, so we want to stay in blankets' (Trời lạnh nên chỉ muốn ở trong chăn) -> Rõ ràng cảm xúc đối với việc dậy sớm là vô cùng ghét bỏ.", s: "Chọn từ 'like' làm câu bị mâu thuẫn hoàn toàn về mặt logic đời sống thực tế." } },
+            { id: "ex9_8", type: "abcd", ex: "Exercise 9: Circle the correct option in brackets.", q: "8. Linda prefers (visiting / to visit) the beautiful beaches in Vietnam.", a: ["visiting", "to visit"], c: "visiting", exp: { v: "A. visiting (V-ing)<br>B. to visit (To-V)", d: "Linda thích đi tham quan những bãi biển xinh đẹp tuyệt trần ở đất nước Việt Nam.", w: "Đáp án chuẩn chỉnh thường dùng nhất trong chương trình học là 'visiting'. Động từ 'prefer' khi nói về sở thích chung thường hướng học sinh tiểu học sử dụng danh động từ dạng V-ing.", s: "Dù trong một vài bối cảnh đời sống To-V vẫn dùng được, nhưng danh động từ V-ing luôn là ưu tiên hàng đầu cho sở thích tổng quát của chủ điểm bài học này." } },
+            { id: "ex9_9", type: "abcd", ex: "Exercise 9: Circle the correct option in brackets.", q: "9. Most children (love / likes) eating candy and ice-cream.", a: ["love", "likes"], c: "love", exp: { v: "A. love (nguyên thể số nhiều)<br>B. likes (thêm s số ít)", d: "Hầu hết trẻ em đều vô cùng yêu thích việc ăn bánh kẹo ngọt và kem lạnh.", w: "Đáp án chính xác là 'love'. Chủ ngữ câu là 'Most children' (Hầu hết trẻ em). Từ 'children' là danh từ số nhiều bất quy tắc (số ít là child), do đó động từ chính ở thì hiện tại đơn phải để nguyên mẫu không thêm s.", s: "Phương án 'likes' sai ngữ pháp do không hòa hợp với chủ từ số nhiều." } },
+            { id: "ex9_10", type: "abcd", ex: "Exercise 9: Circle the correct option in brackets.", q: "10. Most adults don’t like (watch / to watch) cartoons.", a: ["watch", "to watch"], c: "to watch", exp: { v: "A. watch (nguyên thể không to)<br>B. to watch (To-V)", d: "Hầu hết người trưởng thành đều không thích xem phim hoạt hình thiếu nhi.", w: "Đáp án chính xác là 'to watch'. Động từ chỉ sở thích sau khi dùng thể phủ định 'don't like' có thể đi kèm với To-V hoặc V-ing. Động từ nguyên thể không to 'watch' đứng một mình ở đây là sai ngữ pháp.", s: "Loại trừ phương án động từ nguyên thể không có hệ thống liên kết to đi kèm." } },
+            { id: "ex9_11", type: "abcd", ex: "Exercise 9: Circle the correct option in brackets.", q: "11. Her little kid (detests / likes) all vegetables. He doesn't eat any kinds of vegetables.", a: ["detests", "likes"], c: "detests", exp: { v: "A. detests: ghét cay ghét đắng.<br>B. likes: yêu thích ăn.", d: "Đứa con nhỏ của cô ấy ghét cay ghét đắng tất cả các loại rau củ. Cậu bé chẳng ăn bất kỳ loại rau nào cả.", w: "Đáp án đúng là 'detests'. Câu sau nêu rõ hành vi thực tế: 'He doesn't eat any kinds...' (Cậu bé không ăn bất cứ loại nào) -> Thể hiện một sự ghét bỏ thức ăn tột độ.", s: "Chọn tính từ hành động 'likes' sẽ đảo lộn hoàn toàn tính logic của câu miêu tả." } },
+            { id: "ex9_12", type: "abcd", ex: "Exercise 9: Circle the correct option in brackets.", q: "12. Does she fancy (messaging / to message) her friends?", a: ["messaging", "to message"], c: "messaging", exp: { v: "A. messaging (V-ing)<br>B. to message (To-V)", d: "Liệu cô ấy có thích nhắn tin trò chuyện cùng bạn bè của cô ấy không?", w: "Đáp án chính xác là 'messaging'. Quy tắc ngữ pháp tuyệt đối bất biến: Sau động từ chỉ sở thích 'fancy' bắt buộc động từ đi liền kề phải thêm đuôi -ing.", s: "Phương án chứa 'to' sai hoàn toàn công thức ngữ pháp quy định cho từ fancy." } },
+            { id: "ex9_13", type: "abcd", ex: "Exercise 9: Circle the correct option in brackets.", q: "13. My sister loves origami. She often (folds / folding) paper into attractive shapes.", a: ["folds", "folding"], c: "folds", exp: { v: "A. folds (động từ chia ngôi số ít hiện tại)<br>B. folding (dạng động từ đuôi ing)", d: "Chị gái tôi yêu thích nghệ thuật Origami. Chị ấy thường xuyên gấp giấy thành những hình thù vô cùng bắt mắt thu hút.", w: "Đáp án đúng là 'folds'. Câu này có trạng từ chỉ tần suất hành động 'often' diễn tả hành vi lặp lại ở thì hiện tại đơn. Chủ ngữ câu là 'She' (Ngôi thứ ba số ít) nên động từ fold phải chia thêm 's' thành 'folds'.", s: "Từ 'folding' đứng một mình sau trạng từ không tạo thành dạng cấu trúc vị ngữ chuẩn nếu thiếu tobe." } },
+            { id: "ex9_14", type: "abcd", ex: "Exercise 9: Circle the correct option in brackets.", q: "14. They (fancy / don't like) drinking coffee because it is too bitter.", a: ["fancy", "don't like"], c: "don't like", exp: { v: "A. fancy: mến thích thích thú.<br>B. don't like: không thích ghét.", d: "Họ không thích uống cà phê vì hương vị của nó quá cay đắng.", w: "Đáp án đúng là 'don't like'. Nguyên nhân đưa ra ở vế sau rất rõ ràng: 'because it is too bitter' (bởi vì nó quá đắng). Vị đắng ngắt thường dẫn đến tâm lý ghét, không thích uống.", s: "Chọn phương án thích thú 'fancy' mâu thuẫn hoàn toàn lý do chê bai đồ uống đắng." } },
+            { id: "ex9_15", type: "abcd", ex: "Exercise 9: Circle the correct option in brackets.", q: "15. She (enjoys / doesn't enjoy) going out too late in the evening. She is scared of ghosts.", a: ["enjoys", "doesn't enjoy"], c: "doesn't enjoy", exp: { v: "A. enjoys: thích thú tận hưởng.<br>B. doesn't enjoy: không hề thích, bài xích.", d: "Cô ấy không hề thích đi ra ngoài chơi quá muộn vào buổi tối. Cô ấy rất sợ gặp phải ma.", w: "Đáp án chính xác là 'doesn't enjoy'. Lý do tâm lý giải thích ở câu kế tiếp: 'She is scared of ghosts' (Cô ấy sợ ma). Người sợ ma chắc chắn sẽ không dám và không thích đi chơi đêm muộn.", s: "Chọn phương án khẳng định 'enjoys' là sai bối cảnh tâm lý sợ hãi của nhân vật." } },
+            { id: "ex9_16", type: "abcd", ex: "Exercise 9: Circle the correct option in brackets.", q: "16. My dad dislikes travelling. He always (stays / staying) at home on holidays.", a: ["stays", "staying"], c: "stays", exp: { v: "A. stays (động từ chia hiện tại số ít)<br>B. staying (dạng đuôi ing)", d: "Bố của tôi ghét đi du lịch. Ông luôn luôn ở nhà vào những ngày nghỉ lễ.", w: "Đáp án chính xác là 'stays'. Sự hiện diện của trạng từ tần suất 'always' chỉ thói quen cố định thường trực ở thì hiện tại đơn. Chủ ngữ là ngôi ba số ít 'He' nên động từ stay phải được thêm s thành 'stays'.", s: "Dạng từ 'staying' không thể làm động từ chia chính đứng một mình sau trạng từ tần suất được." } },
+            { id: "ex9_17", type: "abcd", ex: "Exercise 9: Circle the correct option in brackets.", q: "17. Linh (prefers / likes) doing DIY to reading comics in her free time.", a: ["prefers", "likes"], c: "prefers", exp: { v: "A. prefers: thích cái gì hơn cái gì.<br>B. likes: thích.", d: "Linh thích tự làm đồ thủ công (DIY) hơn là việc ngồi đọc truyện tranh vào thời gian rảnh rỗi.", w: "Đáp án chính xác là 'prefers'. Hãy chú ý nhìn vào giới từ so sánh lựa chọn 'to' xuất hiện ở giữa hai danh động từ V-ing ('doing DIY to reading'). Đây là cấu trúc độc quyền cố định: Prefer làm gì TO làm gì.", s: "Động từ 'like' không đi với giới từ to ở giữa để tạo phép so sánh hơn kém giữa hai hành động V-ing như thế này." } },
+            { id: "ex9_18", type: "abcd", ex: "Exercise 9: Circle the correct option in brackets.", q: "18. I’m into playing sports, especially table tennis. I (play / to play) table tennis almost every afternoon.", a: ["play", "to play"], c: "play", exp: { v: "A. play (động từ nguyên mẫu làm vị ngữ chính)<br>B. to play (dạng nguyên mẫu có to)", d: "Tôi rất thích chơi thể thao, đặc biệt là môn bóng bàn. Tôi chơi bóng bàn hầu như vào mỗi buổi chiều.", w: "Đáp án chính xác là 'play'. Câu diễn tả hành động lặp đi lặp lại chỉ thói quen đều đặn hàng chiều ở thì hiện tại đơn. Chủ ngữ là ngôi thứ nhất 'I' nên động từ để nguyên mẫu làm vị ngữ chính của câu câu.", s: "Dạng từ 'to play' không thể tự làm động từ chính chia trực tiếp đứng sau chủ từ I để tạo vị ngữ." } },
+            { id: "ex9_19", type: "abcd", ex: "Exercise 9: Circle the correct option in brackets.", q: "19. My sister adores (to make / making) paper flowers.", a: ["to make", "making"], c: "making", exp: { v: "A. to make<br>B. making", d: "Em gái của tôi cực kỳ mê mẩn việc tự làm những bông hoa bằng giấy thủ công.", w: "Đáp án chính xác là 'making'. Theo cấu trúc ngữ pháp chỉ sự yêu thích cuồng nhiệt mê mẩn: Adore + V-ing (Mê làm việc gì đó).", s: "Hình thái 'to make' sai cấu trúc ngữ pháp bắt buộc đi kèm sau động từ adore." } },
+            { id: "ex9_20", type: "abcd", ex: "Exercise 9: Circle the correct option in brackets.", q: "20. I spend a lot of time (study / studying) English on weekends.", a: ["study", "studying"], c: "studying", exp: { v: "A. study<br>B. studying", d: "Tôi dành rất nhiều quỹ thời gian cá nhân của mình để học tiếng Anh vào những ngày cuối tuần.", w: "Đáp án đúng là 'studying'. Áp dụng chính xác cấu trúc phân bổ thời gian kinh điển: Spend + time (quỹ thời gian) + V-ing (làm việc gì đó).", s: "Động từ nguyên mẫu 'study' vi phạm cấu trúc ngữ pháp đi sau cụm từ hành động của từ spend." } },
+
+            // Exercise 10 - Form conversion (Converted to select options for easy interactions)
+            { id: "ex10_1", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "1. They fancy _________ picture postcards when travelling. (make)", a: ["make", "making", "to make", "made"], c: "making", exp: { v: "Từ trong ngoặc: make. Đáp án đúng: making", d: "Họ thích làm những tấm bưu thiếp bằng hình ảnh khi đi du lịch khám phá.", w: "Cấu trúc sau động từ chỉ sở thích: Fancy + V-ing. Động từ make bỏ e thêm ing thành 'making'.", s: "Các phương án khác sai cấu trúc ngữ pháp đi kèm sau fancy." } },
+            { id: "ex10_2", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "2. Ann fancies _________ to the songs of her favorite singer. (listen)", a: ["listening", "listen", "to listen", "listened"], c: "listening", exp: { v: "Từ trong ngoặc: listen. Đáp án đúng: listening", d: "Ann thích lắng nghe những bài hát của ca sĩ thần tượng yêu thích của cô ấy.", w: "Cấu trúc bất biến sau động từ sở thích giải trí: Fancy + V-ing. Do đó động từ listen chuyển đổi thành 'listening'.", s: "A là đáp án chuẩn xác; các phương án còn lại sai dạng chia từ." } },
+            { id: "ex10_3", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "3. I used to prefer _________ out with my friends on the weekend. (hang)", a: ["hanging", "to hang", "to hang/hanging", "hang"], c: "to hang/hanging", exp: { v: "Từ trong ngoặc: hang. Đáp án đúng: to hang hoặc hanging", d: "Tôi từng thích đi ra ngoài tụ tập chơi bời cùng với những người bạn của mình vào dịp cuối tuần.", w: "Sau động từ prefer chỉ sự ưa thích lựa chọn hơn, chúng ta có thể linh hoạt dùng cả dạng động từ nguyên mẫu có to 'to hang' hoặc danh động từ 'hanging' đều hoàn toàn đúng ngữ pháp.", s: "Chọn phương án tổng hợp bao quát chứa cả hai cách chia từ đúng." } },
+            { id: "ex10_4", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "4. Lan and her sister love _________ in their free time. (shop)", a: ["shopping", "to shop", "shopping/to shop", "shop"], c: "shopping/to shop", exp: { v: "Từ trong ngoặc: shop. Đáp án đúng: shopping hoặc to shop", d: "Lan và chị gái của cô ấy rất yêu thích việc đi mua sắm sắm sửa vào thời gian rảnh rỗi.", w: "Động từ 'love' biểu thị tình cảm yêu chuộng cho phép cả hai cấu trúc V-ing ('shopping' lưu ý nhân đôi chữ p cuối) và To-V ('to shop') đi sau làm tân ngữ.", s: "Phương án tổng hợp là câu trả lời chính xác, đầy đủ nhất." } },
+            { id: "ex10_5", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "5. My boyfriend dislikes _________. (wait)", a: ["wait", "waiting", "to wait", "waited"], c: "waiting", exp: { v: "Từ trong ngoặc: wait. Đáp án đúng: waiting", d: "Bạn trai của tôi cực kỳ ghét việc phải ngồi xếp hàng chờ đợi.", w: "Cấu trúc ngữ pháp diễn tả sự không thích, ghét bỏ: Dislike + V-ing. Động từ wait thêm đuôi ing thành 'waiting'.", s: "A, C, D sai quy chuẩn cấu trúc đi sau động từ dislike." } },
+            { id: "ex10_6", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "6. She dislikes _________ and _________ sports. (swim) / (play)", a: ["swimming - playing", "swim - play", "swimming - play", "to swim - to play"], c: "swimming - playing", exp: { v: "Từ trong ngoặc: swim và play. Đáp án đúng: swimming và playing", d: "Cô ấy ghét việc bơi lội và chơi các môn thể thao vận động.", w: "Cấu trúc động từ 'dislike' yêu cầu động từ theo sau ở dạng V-ing. Vì có liên từ 'and' nối hai hành động đồng chức năng, áp dụng quy tắc song hành ta chia cả hai từ dạng đuôi ing là 'swimming' (nhân đôi m) và 'playing'.", s: "Các phương án khác vi phạm cấu trúc song hành đồng dạng ngữ pháp." } },
+            { id: "ex10_7", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "7. He prefers _________ the Internet after school. (surf)", a: ["surfing", "to surf", "to surf/surfing", "surf"], c: "to surf/surfing", exp: { v: "Từ trong ngoặc: surf. Đáp án đúng: to surf hoặc surfing", d: "Cậu ấy thích lướt mạng Internet giải trí sau giờ học ở trường.", w: "Động từ ưa chuộng 'prefer' có thể đi cùng với cả động từ nguyên mẫu có to 'to surf' hoặc danh động từ V-ing 'surfing' khi nói về sở thích chung.", s: "Phương án bao hàm tổng hợp cả hai dạng chia từ chính là câu trả lời chuẩn xác nhất." } },
+            { id: "ex10_8", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "8. I always love _________ new things when I go traveling. (try)", a: ["trying", "to try", "trying /to try", "try"], c: "trying /to try", exp: { v: "Từ trong ngoặc: try. Đáp án đúng: trying hoặc to try", d: "Tôi luôn luôn yêu thích việc được trải nghiệm thử những điều mới mẻ độc lạ mỗi khi đi du lịch.", w: "Đằng sau động từ 'love', chúng ta được phép sử dụng cả danh động từ V-ing ('trying') hoặc động từ nguyên thể có to To-V ('to try') mà không làm thay đổi nhiều ý nghĩa câu.", s: "Phương án chứa cả hai khả năng chia từ là đáp án tối ưu nhất của câu hỏi." } },
+            { id: "ex10_9", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "9. Do you fancy _________ football matches? (watch)", a: ["watch", "watching", "to watch", "watched"], c: "watching", exp: { v: "Từ trong ngoặc: watch. Đáp án đúng: watching", d: "Bạn có hứng thú theo dõi các trận thi đấu bóng đá kịch tính không?", w: "Công thức ngữ pháp chỉ sở thích giải trí: Fancy + V-ing. Do đó động từ watch biến đổi thành danh động từ 'watching'.", s: "Các phương án khác sai công thức đi liền sau động từ fancy." } },
+            { id: "ex10_10", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "10. Do you enjoy _________ DIY in your free time? (do)", a: ["do", "doing", "to do", "done"], c: "doing", exp: { v: "Từ trong ngoặc: do. Đáp án đúng: doing", d: "Bạn có thích tự tay làm đồ thủ công handmade vào lúc rảnh rỗi không?", w: "Cấu trúc ngữ pháp quen thuộc: Enjoy + V-ing. Động từ do thêm đuôi ing tạo thành 'doing'.", s: "A, C, D sai vì không tuân thủ quy tắc chia động từ sau từ enjoy." } },
+            { id: "ex10_11", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "11. My cousin doesn’t like _________ Math and Chemistry. (study)", a: ["studying", "to study", "studying /to study", "study"], c: "studying /to study", exp: { v: "Từ trong ngoặc: study. Đáp án đúng: studying hoặc to study", d: "Người anh em họ của tôi không hề thích học hai môn Toán học và Hóa học.", w: "Sau cấu trúc phủ định sở thích 'doesn't like', ta dùng danh động từ V-ing ('studying' giữ nguyên y dài rồi thêm ing) hoặc dùng To-V ('to study') đều hoàn hảo ngữ pháp.", s: "Phương án tổng hợp là câu trả lời chuẩn mực bao quát toàn diện nhất." } },
+            { id: "ex10_12", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "12. My father usually _________ the net after having dinner. (surf)", a: ["surf", "surfs", "surfing", "surfed"], c: "surfs", exp: { v: "Từ trong ngoặc: surf. Đáp án đúng: surfs", d: "Bố của tôi thường xuyên lướt mạng internet xem tin tức sau khi dùng xong bữa tối.", w: "Hãy chú ý trạng từ tần suất chỉ thói quen đều đặn 'usually' -> Câu chia ở thì Hiện tại đơn. Chủ ngữ 'My father' là danh từ số ít ngôi thứ ba, nên động từ hành động surf phải thêm s thành 'surfs'.", s: "Câu này kiểm tra chia thì hiện tại đơn chủ ngữ số ít chứ không phải cấu trúc sở thích V-ing." } },
+            { id: "ex10_13", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "13. Do you enjoy _________ doll houses and _________ pictures? (build) / (draw)", a: ["building - drawing", "build - draw", "building - draw", "to build - to draw"], c: "building - drawing", exp: { v: "Từ trong ngoặc: build và draw. Đáp án đúng: building và drawing", d: "Bạn có thích xây dựng lắp ráp mô hình nhà búp bê và vẽ tranh phong cảnh không?", w: "Sau động từ chỉ sự tận hưởng 'enjoy', ta cần dạng V-ing. Do câu có liên từ liên kết 'and' nối hai hành động song hành cùng cấp độ phụ thuộc vào enjoy, ta chia cả hai từ dạng đuôi ing: 'building' và 'drawing'.", s: "Các phương án phối hợp sai kiểu dáng từ loại đều bị loại bỏ do vi phạm quy tắc song hành." } },
+            { id: "ex10_14", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "14. Do you prefer _________ books in your free time? (read)", a: ["reading", "to read", "to read /reading", "read"], c: "to read /reading", exp: { v: "Từ trong ngoặc: read. Đáp án đúng: to read hoặc reading", d: "Bạn thích đọc sách truyện vào thời gian rảnh rỗi của mình hơn đúng không?", w: "Động từ chỉ ý thích lựa chọn 'prefer' cho phép đi sau bởi cả hai dạng cấu trúc ngữ pháp: động từ nguyên mẫu có to 'to read' hoặc danh động từ đuôi ing 'reading'.", s: "Ta chọn đáp án gộp chứa cả hai trường hợp chia từ để đạt điểm số tối đa." } },
+            { id: "ex10_15", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "15. My parents enjoy _________ meals together on weekends. (prepare)", a: ["prepare", "preparing", "to prepare", "prepared"], c: "preparing", exp: { v: "Từ trong ngoặc: prepare. Đáp án đúng: preparing", d: "Bố mẹ của tôi rất thích thú việc cùng nhau chuẩn bị nấu nướng các bữa ăn ấm cúng vào ngày cuối tuần.", w: "Cấu trúc ngữ pháp bắt buộc sau động từ tận hưởng: Enjoy + V-ing. Động từ prepare kết thúc bằng nguyên âm e, ta bỏ e trước khi thêm đuôi ing thành 'preparing'.", s: "A, C, D sai quy tắc chia động từ đi liền kề sau enjoy." } },
+            { id: "ex10_16", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "16. Hung _________ into skateboarding on the street. (be)", a: ["is", "am", "are", "was"], c: "is", exp: { v: "Từ trong ngoặc: be. Đáp án đúng: is", d: "Hùng rất say mê và thích thú với bộ môn trượt ván nghệ thuật trên đường phố.", w: "Ta có cấu trúc tiếng Anh giao tiếp thông dụng: Be + into + N/V-ing (đam mê cái gì). Chủ ngữ câu là danh từ riêng số ít 'Hung', ở thì hiện tại đơn ta chia động từ tobe tương ứng là 'is'.", s: "am đi với I; are đi với số nhiều; was là quá khứ không phù hợp bối cảnh giới thiệu sở thích hiện tại." } },
+            { id: "ex10_17", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "17. It is fun _________ DIY from used things. (do)", a: ["do", "doing", "to do", "done"], c: "to do", exp: { v: "Từ trong ngoặc: do. Đáp án đúng: to do", d: "Thật là vui và thú vị khi tự tay làm những món đồ thủ công từ các đồ vật cũ đã qua sử dụng.", w: "Áp dụng cấu trúc câu tính từ giả định chủ ngữ giả kinh điển: It + is + Adj (tính từ) + To-V (Thật như thế nào khi làm việc gì đó). Ở đây có tính từ fun nên ta điền động từ dạng 'to do'.", s: "Các phương án khác không khớp cấu trúc It is + adj + To V." } },
+            { id: "ex10_18", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "18. I think not many people like _________ to her music. (listen)", a: ["listening", "to listen", "listening/to listen", "listen"], c: "listening/to listen", exp: { v: "Từ trong ngoặc: listen. Đáp án đúng: listening hoặc to listen", d: "Tôi nghĩ rằng không có nhiều người yêu thích lắng nghe dòng nhạc của cô ấy đâu.", w: "Sau động từ ưa thích 'like', người viết hoàn toàn có thể sử dụng cấu trúc danh động từ V-ing 'listening' hoặc động từ nguyên thể có to 'to listen' đều đúng.", s: "Chọn phương án bao quát tổng hợp cả hai trường hợp chia từ chính xác." } },
+            { id: "ex10_19", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "19. On the weekends, I am not crazy about _________ and _________ my house. I love _________ out with friends. (cook) / (clean) / (hang)", a: ["cooking - cleaning - hanging/ to hang", "cook - clean - hang", "cooking - cleaning - hang", "to cook - to clean - to hang"], c: "cooking - cleaning - hanging/ to hang", exp: { v: "Từ trong ngoặc: cook, clean, hang. Đáp án đúng: cooking, cleaning, hanging/to hang", d: "Vào những ngày cuối tuần, tôi không quá phát cuồng vì việc nấu nướng và dọn dẹp nhà cửa. Tôi thích đi ra ngoài chơi với bạn bè hơn.", w: "Hai vị trí trống đầu tiên đứng sau giới từ 'about' của cụm từ 'crazy about' nên bắt buộc phải chia dạng V-ing song hành là 'cooking' và 'cleaning'. Vị trí thứ ba đứng sau động từ 'love' nên có thể linh hoạt dùng V-ing 'hanging' hoặc To-V 'to hang'.", s: "Phương án A thiết lập trật tự ngữ pháp chuẩn chỉnh và đầy đủ nhất." } },
+            { id: "ex10_20", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "20. I don’t mind _________ early every day, even on Sundays. (get up)", a: ["get up", "getting up", "to get up", "got up"], c: "getting up", exp: { v: "Từ trong ngoặc: get up. Đáp án đúng: getting up", d: "Tôi không hề ngại hay phiền hà với việc phải thức dậy sớm mỗi ngày, kể cả vào các ngày Chủ nhật.", w: "Cấu trúc ngữ pháp phủ định không phiền ngại làm gì: Don't mind + V-ing. Động từ get thêm đuôi ing phải nhân đôi phụ âm t trước khi thêm ing thành 'getting up'.", s: "Các phương án khác sai cấu trúc ngữ pháp quy định sau từ mind." } },
+            { id: "ex10_21", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "21. I think your brother won’t mind _________ you a helping hand. (lend)", a: ["lend", "lending", "to lend", "lent"], c: "lending", exp: { v: "Từ trong ngoặc: lend. Đáp án đúng: lending", d: "Tôi nghĩ rằng anh trai của bạn sẽ không phiền việc giúp đỡ bạn một tay đâu.", w: "Cấu trúc câu đi với từ mind: Won't mind + V-ing (không phiền ngại làm gì đó). Cụm từ 'lend a helping hand' nghĩa là giúp một tay. Ta chọn dạng chia từ 'lending'.", s: "A, C, D không đúng cấu trúc ngữ pháp sau động từ mind." } },
+            { id: "ex10_22", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "22. Do you think Jane would prefer _________ with other students? (not socialize)", a: ["not to socialize", "not socializing", "to not socialize", "not socialize"], c: "not to socialize", exp: { v: "Từ trong ngoặc: not socialize. Đáp án đúng: not to socialize", d: "Bạn có nghĩ rằng Jane sẽ thích không giao du tụ tập nhiều với các học sinh khác không?", w: "Cấu trúc đặc biệt diễn đạt sở thích mong muốn cụ thể: 'Would prefer + To-V'. Khi có từ phủ định 'not', từ 'not' bắt buộc phải đứng trang trọng ngay trước chữ to tạo thành kết cấu 'not to V', tức là 'not to socialize'.", s: "Đặt vị trí chữ not sai vị trí hoặc dùng dạng đuôi ing sau cụm từ 'would prefer' là sai." } },
+            { id: "ex10_23", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "23. _________ time with my family is a great way to connect with them. (Spend)", a: ["Spend", "Spending", "To spending", "Spends"], c: "Spending", exp: { v: "Từ trong ngoặc: Spend. Đáp án đúng: Spending", d: "Dành thời gian ở bên cạnh gia đình là một cách tuyệt vời để kết nối tình cảm với họ.", w: "Vị trí đứng đầu câu làm chủ ngữ (Subject) chỉ một hành động diễn ra. Ta biến đổi động từ thành dạng danh động từ Gerund V-ing, do đó đáp án đúng là 'Spending'.", s: "A, D là động từ thường không đứng làm chủ từ trực tiếp; C viết sai ngữ pháp." } },
+            { id: "ex10_24", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "24. My friend adores _________ time with her cats. (spend)", a: ["spending", "spend", "to spend", "spent"], c: "spending", exp: { v: "Từ trong ngoặc: spend. Đáp án đúng: spending", d: "Bạn của tôi vô cùng yêu chiều, mê mẩn việc dành thời gian chơi đùa với những chú mèo của cô ấy.", w: "Áp dụng cấu trúc ngữ pháp chỉ sự yêu chuộng say mê tột độ: Adore + V-ing. Do vậy động từ spend biến đổi thành 'spending'.", s: "Các phương án khác sai định dạng chia động từ sau cấu trúc của động từ adore." } },
+            { id: "ex10_25", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "25. Teenagers love _________ the web to while away their time. (surf)", a: ["surfing", "to surf", "surfing/to surf", "surf"], c: "surfing/to surf", exp: { v: "Từ trong ngoặc: surf. Đáp án đúng: surfing hoặc to surf", d: "Thanh thiếu niên thích lướt mạng web giải trí để giết thời gian rảnh rỗi trôi qua.", w: "Sau động từ chỉ sắc thái cảm xúc yêu thích 'love', chúng ta có thể sử dụng linh hoạt cả hai hình thái cấu trúc: danh động từ V-ing ('surfing') hoặc động từ nguyên thể có to 'to surf' đều đúng ngữ pháp.", s: "Chọn phương án tổng hợp gộp cả hai cách chia động từ để đạt kết quả tối ưu nhất." } },
+            { id: "ex10_26", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "26. My cat dislikes _________ on the floor. (sleep)", a: ["sleep", "sleeping", "to sleep", "slept"], c: "sleeping", exp: { v: "Từ trong ngoặc: sleep. Đáp án đúng: sleeping", d: "Chú mèo tinh nghịch của tôi rất ghét việc phải nằm ngủ trực tiếp trên nền nhà.", w: "Cấu trúc diễn đạt tâm lý ghét bỏ bài xích: Dislike + V-ing. Vì vậy động từ sleep thêm đuôi ing tạo thành danh động từ 'sleeping'.", s: "A, C, D vi phạm cấu trúc chia từ vựng đi sau động từ dislike." } },
+            { id: "ex10_27", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "27. I prefer _________ up too late. (not stay)", a: ["not to stay", "not staying", "to not stay", "not stay"], c: "not to stay", exp: { v: "Từ trong ngoặc: not stay. Đáp án đúng: not to stay", d: "Tôi thích lựa chọn việc không thức khuya quá muộn vào ban đêm.", w: "Động từ 'prefer' khi dùng thể phủ định hành động hướng tới một thói quen lựa chọn cụ thể, cấu trúc quy chuẩn thường dùng lịch sự là 'prefer + not to V'. Do đó ta chọn cụm 'not to stay'.", s: "Các phương án đặt chữ not sai vị trí cấu trúc câu bị loại bỏ." } },
+            { id: "ex10_28", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "28. He is a sporty man. He enjoys _________ sports everyday. (play)", a: ["play", "playing", "to play", "plays"], c: "playing", exp: { v: "Từ trong ngoặc: play. Đáp án đúng: playing", d: "Anh ấy là một người đàn ông vô cùng yêu thích thể thao. Anh ấy thích chơi thể thao mỗi ngày.", w: "Cấu trúc câu chỉ hành động giải trí yêu thích thường trực hàng ngày: Enjoy + V-ing. Vì thế từ play chuyển thành dạng danh động từ 'playing'.", s: "A, C, D hoàn toàn sai công thức cấu trúc đi liền sau động từ enjoy." } },
+            { id: "ex10_29", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "29. I don’t mind _________ the problem again. (explain)", a: ["explain", "explaining", "to explain", "explained"], c: "explaining", exp: { v: "Từ trong ngoặc: explain. Đáp án đúng: explaining", d: "Tôi không hề ngại hay phiền lòng về việc phải giải thích lại vấn đề khúc mắc này một lần nữa đâu.", w: "Cấu trúc ngữ pháp câu đi với từ mind thể phủ định: Don't mind + V-ing (không phiền ngại làm gì). Vậy động từ giải thích explain đổi thành 'explaining'.", s: "A, C, D vi phạm quy tắc cú pháp chia từ sau động từ mind." } },
+            { id: "ex10_30", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "30. My father loves _________ golf with his friends. (play)", a: ["playing", "to play", "to play/playing", "play"], c: "to play/playing", exp: { v: "Từ trong ngoặc: play. Đáp án đúng: to play hoặc playing", d: "Bố của tôi yêu thích việc chơi môn thể thao đánh golf quý tộc cùng bạn bè của ông.", w: "Sau động từ biểu thị sắc thái tình cảm yêu thích 'loves', người viết có thể dùng cả danh động từ V-ing ('playing') hoặc động từ nguyên mẫu có to To-V ('to play') đều hoàn toàn chính xác.", s: "Phương án gộp tổng hợp cả hai khả năng chia từ chính là đáp án toàn diện nhất câu hỏi." } },
+            { id: "ex10_31", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "31. Mr. Smith hates _________ his old car. (drive)", a: ["driving", "to drive", "driving/to drive", "drive"], c: "driving/to drive", exp: { v: "Từ trong ngoặc: drive. Đáp án đúng: driving hoặc to drive", d: "Ông Smith ghét việc phải lái chiếc xe ô tô cũ kỹ, ọp ẹp của ông ấy.", w: "Sau động từ chỉ cảm xúc ghét bỏ mạnh mẽ 'hates', chúng ta có thể sử dụng cấu trúc V-ing ('driving' bỏ e rồi thêm ing) hoặc dùng cấu trúc To-V ('to drive') đều chuẩn xác.", s: "Chọn phương án bao gồm cả hai khả năng chia từ đúng ngữ pháp." } },
+            { id: "ex10_32", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "32. My mother detests _________ out at that restaurant. (eat)", a: ["eat", "eating", "to eat", "eats"], c: "eating", exp: { v: "Từ trong ngoặc: eat. Đáp án đúng: eating", d: "Mẹ của tôi ghét cay ghét đắng việc phải đi ra ngoài ăn tiệm tại nhà hàng đó.", w: "Áp dụng cấu trúc ngữ pháp bắt buộc sau động từ chỉ sự ghét bỏ tột cùng: Detest + V-ing. Vì vậy động từ eat biến đổi thành danh động từ 'eating'.", s: "A, C, D sai quy tắc kết hợp từ loại đi sau động từ đặc biệt detest." } },
+            { id: "ex10_33", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "33. Linda is interested in _________ to Viet Nam after seeing my postcard of Vietnamese wonders. (travel)", a: ["travel", "travelling", "travels", "to travel"], c: "travelling", exp: { v: "Từ trong ngoặc: travel. Đáp án đúng: travelling", d: "Linda rất hứng thú với việc đi du lịch tới đất nước Việt Nam sau khi được chiêm ngưỡng tấm bưu thiếp của tôi về các kỳ quan thiên nhiên Việt Nam.", w: "Căn cứ vị trí đứng ngay sau giới từ 'in' thuộc cụm cấu trúc tính từ 'interested in'. Động từ theo sau một giới từ luôn luôn bắt buộc ở dạng V-ing. Từ travel thêm ing có thể nhân đôi chữ l thành 'travelling'.", s: "A, C, D sai định dạng chia từ bắt buộc sau một giới từ liên kết." } },
+            { id: "ex10_34", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "34. She didn’t want _________ him about her plan. (tell)", a: ["telling", "tell", "to tell", "told"], c: "to tell", exp: { v: "Từ trong ngoặc: tell. Đáp án đúng: to tell", d: "Cô ấy đã không muốn nói cho anh ta biết về kế hoạch dự định sắp tới của cô.", w: "Cấu trúc diễn tả ý muốn mong muốn hành động cơ bản thì quá khứ hay hiện tại: Want + To-V. Vì thế động từ tell biến đổi thành 'to tell'.", s: "A, B, D hoàn toàn sai công thức quy chuẩn đi kèm sau động từ gốc want." } },
+            { id: "ex10_35", type: "abcd", ex: "Exercise 10: Put the verbs in brackets into the correct forms.", q: "35. I detest _________ a conversation with John. (have)", a: ["have", "having", "to have", "had"], c: "having", exp: { v: "Từ trong ngoặc: have. Đáp án đúng: having", d: "Tôi ghét cay ghét đắng việc phải đứng trò chuyện, thảo luận cùng với John.", w: "Cấu trúc ngữ pháp cố định sau từ chỉ sự căm ghét: Detest + V-ing. Động từ have kết thúc bằng chữ e, ta thực hiện bỏ e trước khi thêm đuôi ing tạo thành 'having'.", s: "A, C, D không đúng ngữ pháp quy định sau từ detest." } },
+
+            // Exercise 11 - Matching layout rendered as single-choice items for smooth gamified flow
+            { id: "ex11_1", type: "abcd", ex: "Exercise 11: Match the letter with correct activity item description.", q: "1. Match item definition 'C' to its activity phrase name:", a: ["making origami", "surfing the net", "playing badminton", "doing gardening", "snowboarding", "doing puzzles"], c: "playing badminton", exp: { v: "Đáp án nối khớp: C ứng với playing badminton", d: "Khớp nối từ loại trò chơi.", w: "Dựa theo bảng đáp án khóa đề gốc cung cấp chính xác, số thứ tự 1 nối với chữ cái C, ứng với bộ môn 'playing badminton' (chơi đánh cầu lông).", s: "Các hoạt động giải trí khác không khớp mã chữ cái đáp án đề bài gốc." } },
+            { id: "ex11_2", type: "abcd", ex: "Exercise 11: Match the letter with correct activity item description.", q: "2. Match item definition 'F' to its activity phrase name:", a: ["making origami", "surfing the net", "playing badminton", "doing gardening", "snowboarding", "doing puzzles"], c: "doing puzzles", exp: { v: "Đáp án nối khớp: F ứng với doing puzzles", d: "Khớp nối danh từ giải đố.", w: "Dựa theo bảng đáp án khóa đề gốc cung cấp chính xác, số thứ tự 2 nối với chữ cái F, ứng với hoạt động trí tuệ 'doing puzzles' (chơi trò giải đố ô chữ).", s: "Các hoạt động giải trí khác không khớp mã chữ cái đáp án đề bài gốc." } },
+            { id: "ex11_3", type: "abcd", ex: "Exercise 11: Match the letter with correct activity item description.", q: "3. Match item definition 'A' to its activity phrase name:", a: ["making origami", "surfing the net", "playing badminton", "doing gardening", "snowboarding", "doing puzzles"], c: "making origami", exp: { v: "Đáp án nối khớp: A ứng với making origami", d: "Khớp nối nghệ thuật gấp giấy.", w: "Dựa theo bảng đáp án khóa đề gốc cung cấp chính xác, số thứ tự 3 nối với chữ cái A, ứng với hoạt động thủ công 'making origami' (gấp giấy nghệ thuật Nhật Bản).", s: "Các hoạt động giải trí khác không khớp mã chữ cái đáp án đề bài gốc." } },
+            { id: "ex11_4", type: "abcd", ex: "Exercise 11: Match the letter with correct activity item description.", q: "4. Match item definition 'E' to its activity phrase name:", a: ["making origami", "surfing the net", "playing badminton", "doing gardening", "snowboarding", "doing puzzles"], c: "snowboarding", exp: { v: "Đáp án nối khớp: E ứng với snowboarding", d: "Khớp nối môn thể thao tuyết.", w: "Dựa theo bảng đáp án khóa đề gốc cung cấp chính xác, số thứ tự 4 nối với chữ cái E, ứng với bộ môn thể thao mạo hiểm mùa đông 'snowboarding' (trượt tuyết bằng ván).", s: "Các hoạt động giải trí khác không khớp mã chữ cái đáp án đề bài gốc." } },
+            { id: "ex11_5", type: "abcd", ex: "Exercise 11: Match the letter with correct activity item description.", q: "5. Match item definition 'B' to its activity phrase name:", a: ["making origami", "surfing the net", "playing badminton", "doing gardening", "snowboarding", "doing puzzles"], c: "surfing the net", exp: { v: "Đáp án nối khớp: B ứng với surfing the net", d: "Khớp nối duyệt mạng máy tính.", w: "Dựa theo bảng đáp án khóa đề gốc cung cấp chính xác, số thứ tự 5 nối với chữ cái B, ứng với cụm từ công nghệ quen thuộc 'surfing the net' (lướt mạng internet).", s: "Các hoạt động giải trí khác không khớp mã chữ cái đáp án đề bài gốc." } },
+            { id: "ex11_6", type: "abcd", ex: "Exercise 11: Match the letter with correct activity item description.", q: "6. Match item definition 'D' to its activity phrase name:", a: ["making origami", "surfing the net", "playing badminton", "doing gardening", "snowboarding", "doing puzzles"], c: "doing gardening", exp: { v: "Đáp án nối khớp: D ứng với doing gardening", d: "Khớp nối chăm sóc cây cối.", w: "Dựa theo bảng đáp án khóa đề gốc cung cấp chính xác, số thứ tự 6 nối với chữ cái D, ứng với hoạt động thư giãn thiên nhiên 'doing gardening' (làm vườn chăm sóc cây cối hoa quả).", s: "Các hoạt động giải trí khác không khớp mã chữ cái đáp án đề bài gốc." } },
+
+            // Exercise 12 - Word Form interaction
+            { id: "ex12_1", type: "abcd", ex: "Exercise 12: Supply the correct form of the words in brackets.", q: "1. The most popular leisure _________ in Britain is going for a walk. (act)", a: ["action", "active", "activity", "activities"], c: "activity", exp: { v: "Từ trong ngoặc: act (v). Từ loại cần điền: danh từ số ít 'activity'.", d: "Hoạt động giải trí phổ biến, được yêu thích nhất ở vương quốc Anh là đi bộ dạo mát.", w: "Vị trí đứng sau danh từ bổ nghĩa bổ trợ tính chất 'leisure' tạo thành cụm danh từ làm chủ ngữ chính số ít đi với động từ tobe 'is'. Do đó từ gốc act phải đổi sang danh từ chỉ hoạt động giải trí 'activity'.", s: "action là hành động phim ảnh; active là tính từ; activities là số nhiều không khớp động từ tobe 'is'." } },
+            { id: "ex12_2", type: "abcd", ex: "Exercise 12: Supply the correct form of the words in brackets.", q: "2. To play video games, these computers must be used over a Wi-Fi internet _________. (connect)", a: ["connection", "connective", "connected", "connects"], c: "connection", exp: { v: "Từ trong ngoặc: connect (v). Từ loại cần điền: danh từ 'connection'.", d: "Để chơi được trò chơi điện tử trực tuyến, những chiếc máy tính này bắt buộc phải được sử dụng thông qua một cổng kết nối mạng internet Wi-Fi.", w: "Đứng đằng sau tính từ bổ nghĩa 'internet', ta cần một danh từ để tạo lập cụm danh từ hoàn chỉnh nghĩa. Động từ connect đổi sang danh từ sự kết nối là 'connection'.", s: "Các phương án khác là tính từ hoặc động từ chia không đúng vị trí cấu từ loại của câu." } },
+            { id: "ex12_3", type: "abcd", ex: "Exercise 12: Supply the correct form of the words in brackets.", q: "3. I think badminton is an easy sport which helps to improve my muscle _________. (strong)", a: ["strongly", "strength", "stronger", "strengthen"], c: "strength", exp: { v: "Từ trong ngoặc: strong (adj). Từ loại cần điền: danh từ 'strength'.", d: "Tôi nghĩ môn cầu lông là một môn thể thao dễ chơi, nó giúp cải thiện đáng kể sức mạnh cơ bắp của tôi.", w: "Vị trí đứng đằng sau tính từ sở hữu 'my' kết hợp danh từ ghép 'muscle' (cơ bắp) -> vị trí trống bắt buộc phải điền một danh từ chỉ đặc tính. Tính từ strong đổi sang dạng danh từ sức mạnh là 'strength'.", s: "strongly là trạng từ; strengthen là động từ; stronger là tính từ so sánh hơn." } },
+            { id: "ex12_4", type: "abcd", ex: "Exercise 12: Supply the correct form of the words in brackets.", q: "4. It is very _________ to watch these movies. I think you should watch them. (entertain)", a: ["entertainment", "entertaining", "entertained", "entertains"], c: "entertaining", exp: { v: "Từ trong ngoặc: entertain (v). Từ loại cần điền: tính từ chỉ tính chất chủ động 'entertaining'.", d: "Thật là mang tính giải trí thư giãn đầu óc khi xem những bộ phim này. Mình nghĩ bạn rất nên xem chúng đấy.", w: "Cấu trúc tính từ giả định: It + is + very + Adj (tính từ chỉ tính chất của sự vật hiện tượng hành động). Để miêu tả đặc điểm cuốn dẫn, mang tính giải trí của bộ phim, ta dùng tính từ đuôi ing là 'entertaining'.", s: "entertainment là danh từ sự giải trí; entertained là tính từ chỉ cảm xúc của con người khi được giải trí." } },
+            { id: "ex12_5", type: "abcd", ex: "Exercise 12: Supply the correct form of the words in brackets.", q: "5. I like doing DIY because it helps me to save money and increase my _________ as well. (create)", a: ["creative", "creatively", "creativity", "creation"], c: "creativity", exp: { v: "Từ trong ngoặc: create (v). Từ loại cần điền: danh từ chỉ năng lực 'creativity'.", d: "Tôi thích tự làm đồ thủ công vì nó giúp tôi tiết kiệm tiền bạc và đồng thời làm tăng khả năng sáng tạo của bản thân.", w: "Vị trí đứng sau tính từ sở hữu 'my' yêu cầu một danh từ chỉ năng khiếu phẩm chất tâm lý. Động từ sáng tạo create chuyển sang danh từ óc sáng tạo, khả năng sáng tạo là 'creativity'.", s: "creative là tính từ; creation là sự tạo ra/tác phẩm cụ thể chứ không phải năng lực sáng tạo tư duy cá nhân." } },
+            { id: "ex12_6", type: "abcd", ex: "Exercise 12: Supply the correct form of the words in brackets.", q: "6. Little John is keen on acting at school shows, and he wants to be a _________ in the future. (comedy)", a: ["comedian", "comedic", "comedies", "comedienne"], c: "comedian", exp: { v: "Từ trong ngoặc: comedy (n - phim hài). Từ loại cần điền: danh từ chỉ nghề nghiệp con người 'comedian'.", d: "Cậu bé John rất thích tham gia diễn xuất trong các buổi biểu diễn của trường, và cậu ấy muốn trở thành một diễn viên hài trong tương lai.", w: "Căn cứ vào cấu trúc cụm từ chỉ nghề nghiệp ước mơ tương lai đứng sau mạo từ chỉ số ít 'a' + 'wants to be a...'. Ta cần một danh từ chỉ người nam/chung. Từ danh từ thể loại hài kịch comedy biến đổi thành danh từ danh xưng diễn viên hài là 'comedian'.", s: "comedic là tính từ; comedies là số nhiều của danh từ vở kịch; comedienne là nữ diễn viên hài (John là tên nam giới)." } },
+            { id: "ex12_7", type: "abcd", ex: "Exercise 12: Supply the correct form of the words in brackets.", q: "7. _________ improves my overall health and balance, so I practice the sport every weekend. (Snowboard)", a: ["Snowboarder", "Snowboarded", "Snowboarding", "Snowboards"], c: "Snowboarding", exp: { v: "Từ trong ngoặc: Snowboard (v/n). Từ loại cần điền: danh động từ tên môn thể thao 'Snowboarding'.", d: "Môn trượt tuyết bằng ván giúp cải thiện sức khỏe tổng thể và khả năng giữ thăng bằng của tôi, thế nên tôi luyện tập môn thể thao này vào mỗi cuối tuần.", w: "Vị trí đứng đầu câu làm chủ ngữ (Subject) gọi tên một môn thể thao vận động giải trí. Ta chuyển đổi động từ hành động sang danh động từ đuôi ing là 'Snowboarding'.", s: "Snowboarder là người trượt tuyết; các phương án còn lại không đóng vai trò danh từ chủ từ môn học phù hợp." } },
+            { id: "ex12_8", type: "abcd", ex: "Exercise 12: Supply the correct form of the words in brackets.", q: "8. Messaging has won _________ among students nowadays. (popular)", a: ["popularity", "popularly", "popularize", "population"], c: "popularity", exp: { v: "Từ trong ngoặc: popular (adj). Từ loại cần điền: danh từ sự phổ biến 'popularity'.", d: "Việc nhắn tin nhắn văn bản đã giành được sự phổ biến ưa chuộng rộng rãi trong giới học sinh ngày nay.", w: "Đứng sau động từ vị ngữ chính đạt được 'has won', câu cần một danh từ đóng vai trò tân ngữ trực tiếp (Object). Tính từ phổ biến popular chuyển sang danh từ sự phổ biến, sự yêu chuộng đại chúng là 'popularity'.", s: "popularly là trạng từ; popularize là động từ phổ cập; population là danh từ dân số hoàn toàn lạc đề ngữ nghĩa." } },
+            { id: "ex12_9", type: "abcd", ex: "Exercise 12: Supply the correct form of the words in brackets.", q: "9. Having leisure activities is one of the best ways to make you feel _________. (comfort)", a: ["comfortably", "comfortable", "discomfort", "comforting"], c: "comfortable", exp: { v: "Từ trong ngoặc: comfort (v/n). Từ loại cần điền: tính từ trạng thái cảm xúc 'comfortable'.", d: "Tham gia các hoạt động giải trí là một trong những cách tốt nhất giúp cho bạn cảm thấy thoải mái dễ chịu.", w: "Áp dụng cấu trúc động từ chỉ cảm giác, hệ thống giác quan tinh thần: Make + somebody + feel + Adj (tính từ chỉ trạng thái cảm xúc của người đó). Do vậy danh/động từ comfort biến thành tính từ thoải mái dễ chịu là 'comfortable'.", s: "comfortably là trạng từ; discomfort là danh từ sự khó chịu bất tiện." } },
+            { id: "ex12_10", type: "abcd", ex: "Exercise 12: Supply the correct form of the words in brackets.", q: "10. My dad was _________ when I could repair my own bike. (surprise)", a: ["surprising", "surprised", "surprise", "surprises"], c: "surprised", exp: { v: "Từ trong ngoặc: surprise (v/n). Từ loại cần điền: tính từ bị động chỉ cảm xúc con người 'surprised'.", d: "Bố của tôi đã vô cùng ngạc nhiên khi thấy tôi có thể tự mình sửa chữa chiếc xe đạp của bản thân.", w: "Cấu trúc tính từ đứng sau hệ thống động từ tobe 'was' miêu tả cảm xúc, phản ứng tâm lý của con người trước một sự việc bất ngờ. Ta dùng tính từ định dạng phân từ đuôi -ed là 'surprised'.", s: "surprising là tính từ đuôi ing miêu tả bản chất sự vật hiện tượng gây ngạc nhiên cho người khác." } }
+        ];
+
+        // Shuffle utility preserving initial source data positions if called
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Render functions to build custom cards injection
+        function buildQuizDOM() {
+            const container = document.getElementById('quiz-content');
+            let currentExerciseHeader = "";
+
+            quizData.forEach((item, index) => {
+                // If there is an exercise header change, render it out clearly
+                if (item.ex !== currentExerciseHeader) {
+                    currentExerciseHeader = item.ex;
+                    const exTitleDiv = document.createElement('div');
+                    exTitleDiv.className = 'exercise-title';
+                    exTitleDiv.innerText = currentExerciseHeader;
+                    container.appendChild(exTitleDiv);
+                }
+
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.id = `card_${item.id}`;
+
+                if (item.type === 'abcd') {
+                    // Standard single choice presentation card format
+                    let qText = item.q;
+                    let optionsHTML = "";
+                    
+                    // Duplicate options array to avoid mutating original and shuffle options if requested
+                    let processedOptions = [...item.a];
+                    // Keep original indices map for absolute comparison
+                    
+                    card.innerHTML = `
+                        <div class="question-text">${qText}</div>
+                        <div class="options-grid" id="grid_${item.id}">
+                            ${processedOptions.map(opt => `
+                                <button type="button" class="btn-opt" onclick="checkABCDAnswer(this, '${item.id}', '${opt.replace(/'/g, "\\'")}', '${item.c.replace(/'/g, "\\'")}')">
+                                    ${opt}
+                                </button>
+                            `).join('')}
+                        </div>
+                        <div class="explanation-box" id="exp_${item.id}">
+                            <div class="exp-section"><span class="exp-title">1. Phân tích đáp án từ vựng:</span><br>${item.exp.v}</div>
+                            <div class="exp-section"><span class="exp-title">2. Dịch nghĩa câu hỏi:</span><br><em>"${item.exp.d}"</em></div>
+                            <div class="exp-section"><span class="exp-title">3. Tại sao đáp án này ĐÚNG:</span><br>${item.exp.w}</div>
+                            <div class="exp-section"><span class="exp-title">4. Tại sao các đáp án khác SAI:</span><br>${item.exp.s}</div>
+                        </div>
+                    `;
+                } else if (item.type === 'gap') {
+                    // Inline Interactive Popover Pick list gap format
+                    card.innerHTML = `
+                        <div class="question-text">${item.q}</div>
+                        <div class="popup-picker" id="picker_${item.id}">
+                            ${item.opts.map(o => `<button type="button" onclick="selectGapWord('${item.id}', '${o}')">${o}</button>`).join('')}
+                        </div>
+                        <div class="explanation-box" id="exp_${item.id}">
+                            <div class="exp-section"><span class="exp-title">Phần giải thích đáp án điền từ:</span><br>${item.exp.v}</div>
+                            <div class="exp-section"><span class="exp-title">Dịch nghĩa câu:</span><br><em>"${item.exp.d}"</em></div>
+                            <div class="exp-section"><span class="exp-title">Phân tích sâu ngữ pháp:</span><br>${item.exp.w}<br>${item.exp.s}</div>
+                        </div>
+                    `;
+                }
+
+                container.appendChild(card);
+            });
+
+            // Re-attach inline events onto elements generated for popover picker mechanics
+            document.querySelectorAll('.gap-select').forEach(element => {
+                element.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const parentCardId = this.getAttribute('data-id').split('_')[0] + '_' + this.getAttribute('data-id').split('_')[1];
+                    const picker = document.getElementById(`picker_${parentCardId}`);
+                    // Toggle visibility relative display
+                    if(picker.style.display === 'flex') {
+                        picker.style.display = 'none';
+                    } else {
+                        picker.style.display = 'flex';
+                    }
+                });
+            });
+
+            // Close pickers if clicked elsewhere on blank screens
+            document.addEventListener('click', function() {
+                document.querySelectorAll('.popup-picker').forEach(p => p.style.display = 'none');
+            });
+        }
+
+        // State score tracking arrays
+        const trackingResults = {};
+
+        function checkABCDAnswer(btn, itemId, selectedOpt, correctOpt) {
+            const grid = document.getElementById(`grid_${itemId}`);
+            const buttons = grid.querySelectorAll('.btn-opt');
+            const card = document.getElementById(`card_${itemId}`);
+            
+            // Disable all option choices in this block once answered to keep clean score data states
+            buttons.forEach(b => b.disabled = true);
+
+            const expBox = document.getElementById(`exp_${itemId}`);
+            expBox.className += " visible";
+
+            if (selectedOpt === correctOpt) {
+                btn.classList.add('correct');
+                playSound('correct');
+                triggerConfettiPartially();
+                trackingResults[itemId] = true;
+            } else {
+                btn.classList.add('wrong');
+                // Highlight correct selection for learning feedback clarity
+                buttons.forEach(b => {
+                    if (b.innerText.trim() === correctOpt) {
+                        b.classList.add('correct');
+                    }
+                });
+                card.classList.add('shake');
+                playSound('wrong');
+                trackingResults[itemId] = false;
+            }
+        }
+
+        function selectGapWord(itemId, pickedWord) {
+            const gapSpan = document.querySelector(`[data-id="${itemId}_g"]`);
+            const correctWord = gapSpan.getAttribute('data-ans');
+            const card = document.getElementById(`card_${itemId}`);
+            const picker = document.getElementById(`picker_${itemId}`);
+            
+            picker.style.display = 'none';
+            gapSpan.innerText = pickedWord;
+
+            const expBox = document.getElementById(`exp_${itemId}`);
+            expBox.className += " visible";
+
+            if (pickedWord === correctWord) {
+                gapSpan.className = "gap-select correct";
+                playSound('correct');
+                triggerConfettiPartially();
+                trackingResults[itemId] = true;
+            } else {
+                gapSpan.className = "gap-select wrong";
+                card.classList.add('shake');
+                playSound('wrong');
+                trackingResults[itemId] = false;
+                
+                // Set explicit timeout to reset animation helper flags
+                setTimeout(() => card.classList.remove('shake'), 500);
+            }
+        }
+
+        // Form overall evaluation summary logic handler
+        function submitQuiz() {
+            let totalQuestions = quizData.length;
+            let correctAnswersCount = 0;
+
+            // Loop and compile state values
+            quizData.forEach(item => {
+                if (trackingResults[item.id] === true) {
+                    correctAnswersCount++;
+                }
+            });
+
+            const currentPercentage = (correctAnswersCount / totalQuestions) * 100;
+            let finalComment = "";
+
+            if (currentPercentage < 50) {
+                finalComment = "Điểm lần này chưa cao lắm, con cố gắng đọc kĩ giải thích đáp án và làm lại nha. Cô tin con sẽ làm tốt hơn ở lần sau! ❤️";
+            } else if (currentPercentage >= 60 && currentPercentage <= 80) {
+                finalComment = "Con đã có tiến bộ khá ổn rồi, con cố gắng đọc kĩ giải thích đáp án và làm lại nha. Cô tin con sẽ làm tốt hơn ở lần sau! ✨";
+            } else {
+                finalComment = "Làm tốt lắm, con cố gắng rinh điểm 10 ở lần sau nha! 🏆🎉";
+            }
+
+            // Display values inside display elements inside full alert layout overlay modals
+            document.getElementById('modal-score').innerText = `${correctAnswersCount} / ${totalQuestions}`;
+            document.getElementById('modal-comment').innerText = finalComment;
+            document.getElementById('score-modal').style.display = 'flex';
+
+            if(currentPercentage >= 80) {
+                // Trigger massive victory screen burst
+                for(let i=0; i<4; i++) {
+                    setTimeout(triggerConfettiPartially, i * 300);
+                }
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('score-modal').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // HTML Canvas basic confetti graphics animation framework implementation
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let confettiParticles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function triggerConfettiPartially() {
+            const colors = ['#FF4757', '#00D26A', '#00C9A7', '#FDCB6E', '#8854C0', '#E84393'];
+            for (let i = 0; i < 45; i++) {
+                confettiParticles.push({
+                    x: Math.random() * canvas.width,
+                    y: -10,
+                    size: Math.random() * 8 + 4,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    speedX: Math.random() * 4 - 2,
+                    speedY: Math.random() * 5 + 3,
+                    rotation: Math.random() * 360,
+                    rotationSpeed: Math.random() * 4 - 2
+                });
+            }
+        }
+
+        function updateAndRenderConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            confettiParticles.forEach((p, index) => {
+                p.x += p.speedX;
+                p.y += p.speedY;
+                p.rotation += p.rotationSpeed;
+
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate((p.rotation * Math.PI) / 180);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                ctx.restore();
+
+                // Splice array out of scope instances
+                if (p.y > canvas.height) {
+                    confettiParticles.splice(index, 1);
+                }
+            });
+            requestAnimationFrame(updateAndRenderConfetti);
+        }
+        updateAndRenderConfetti();
+
+        // Initialize DOM execution procedures
+        window.onload = function() {
+            buildQuizDOM();
+        };
+    </script>
+</body>
+</html>
